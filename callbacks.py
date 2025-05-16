@@ -53,6 +53,53 @@ def register_callbacks(app):
 
                     ]
                 )]
+           
+            elif active_tab == "mmg_data":
+                return [
+                    dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
+                    dbc.Row(
+                    [
+                        dbc.Col(dcc.Graph(figure=data["mmg_background_breast"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_contour"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_size"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_calcifications"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_number_formations_visualized"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_axillary_lymph_nodes"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["type_structure_acr"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mmg_category_birads"]), width=6)
+                    ]
+                )]
+            elif active_tab == "abus_data":
+                return [
+                    dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
+                    dbc.Row(
+                    [
+                        dbc.Col(dcc.Graph(figure=data["abus_nodle_size"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_nodle_contours"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_echogenicity_formation"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_structure"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_symptom_retraction"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_formation"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_category_birads"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["abus_calcinates"]), width=6)
+
+                    ]
+                )]
+            elif active_tab == "hist_data":
+                return [
+                    dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
+                    dbc.Row(
+                    [
+                        dbc.Col(dcc.Graph(figure=data["tumor_morphology_structure"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["cytological_conclusion"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["degree_malignancy"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["mutation_brca"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["tumor_receptors"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["hist_is_tumor"]), width=6)
+
+                    ]
+                )]
         return "No tab selected"
 
 
@@ -79,8 +126,30 @@ def register_callbacks(app):
                 Input('us_region_lymph_nodes-filter', 'value'),
                 Input('us_number_nodles-filter', 'value'),
                 Input('us_category_birads-filter', 'value'),
-                Input('us_calcinates_micro_pure-filter', 'value')
-
+                Input('us_calcinates_micro_pure-filter', 'value'),
+                Input('mmg_background_breast-filter', 'value'),
+                Input('mmg_nodle-filter', 'value'),
+                Input('mmg_nodle_contour-filter', 'value'),
+                Input('mmg_nodle_size-filter', 'value'),
+                Input('mmg_calcifications-filter', 'value'),
+                Input('mmg_number_formations_visualized-filter', 'value'),
+                Input('mmg_axillary_lymph_nodes-filter', 'value'),
+                Input('type_structure_acr-filter', 'value'),
+                Input('mmg_category_birads-filter', 'value'),
+                Input('abus_nodle_size-filter', 'value'),
+                Input('abus_nodle_contours-filter', 'value'),
+                Input('abus_echogenicity_formation-filter', 'value'),
+                Input('abus_structure-filter', 'value'),
+                Input('abus_symptom_retraction-filter', 'value'),
+                Input('abus_formation-filter', 'value'),
+                Input('abus_category_birads-filter', 'value'),
+                Input('abus_calcinates-filter', 'value'),
+                Input('tumor_morphology_structure-filter', 'value'),
+                Input('cytological_conclusion-filter', 'value'),
+                Input('degree_malignancy-filter', 'value'),
+                Input('mutation_brca-filter', 'value'),
+                Input('tumor_receptors-filter', 'value'),
+                Input('hist_is_tumor-filter', 'value')
                 )
 
 
@@ -106,7 +175,30 @@ def register_callbacks(app):
                         selected_us_region_lymph_nodes,
                         selected_us_number_nodles,
                         selected_us_category_birads,
-                        selected_us_calcinates_micro_pure):
+                        selected_us_calcinates_micro_pure,
+                        selected_mmg_background_breast,
+                        selected_mmg_nodle,
+                        selected_mmg_nodle_contour,
+                        selected_mmg_nodle_size,
+                        selected_mmg_calcifications,
+                        selected_mmg_number_formations_visualized,
+                        selected_mmg_axillary_lymph_nodes,
+                        selected_type_structure_acr,
+                        selected_mmg_category_birads,
+                        selected_abus_nodle_size,
+                        selected_abus_nodle_contours,
+                        selected_abus_echogenicity_formation,
+                        selected_abus_structure,
+                        selected_abus_symptom_retraction,
+                        selected_abus_formation,
+                        selected_abus_category_birads,
+                        selected_abus_calcinates,
+                        selected_tumor_morphology_structure,
+                        selected_cytological_conclusion,
+                        selected_degree_malignancy,
+                        selected_mutation_brca,
+                        selected_tumor_receptors,
+                        selected_hist_is_tumor):
 
         
         filtered_df = df[
@@ -132,8 +224,30 @@ def register_callbacks(app):
                 (df['us_region_lymph_nodes'].isin(selected_us_region_lymph_nodes)) &
                 (df['us_number_nodles'].isin(selected_us_number_nodles)) &
                 (df['us_category_birads'].isin(selected_us_category_birads)) &
-                (df['us_calcinates_micro_pure'].isin(selected_us_calcinates_micro_pure))
-
+                (df['us_calcinates_micro_pure'].isin(selected_us_calcinates_micro_pure)) &
+                (df['mmg_background_breast'].isin(selected_mmg_background_breast)) &
+                (df['mmg_nodle'].isin(selected_mmg_nodle)) &
+                (df['mmg_nodle_contour'].isin(selected_mmg_nodle_contour)) &
+                (df['mmg_nodle_size'].isin(selected_mmg_nodle_size)) &
+                (df['mmg_calcifications'].isin(selected_mmg_calcifications)) &
+                (df['mmg_number_formations_visualized'].isin(selected_mmg_number_formations_visualized)) &
+                (df['mmg_axillary_lymph_nodes'].isin(selected_mmg_axillary_lymph_nodes)) &
+                (df['type_structure_acr'].isin(selected_type_structure_acr)) &
+                (df['mmg_category_birads'].isin(selected_mmg_category_birads)) &
+                (df['abus_nodle_size'].isin(selected_abus_nodle_size)) &
+                (df['abus_nodle_contours'].isin(selected_abus_nodle_contours)) &
+                (df['abus_echogenicity_formation'].isin(selected_abus_echogenicity_formation)) &
+                (df['abus_structure'].isin(selected_abus_structure)) &
+                (df['abus_symptom_retraction'].isin(selected_abus_symptom_retraction)) &
+                (df['abus_formation'].isin(selected_abus_formation)) &
+                (df['abus_category_birads'].isin(selected_abus_category_birads)) &
+                (df['abus_calcinates'].isin(selected_abus_calcinates)) &
+                (df['tumor_morphology_structure'].isin(selected_tumor_morphology_structure)) &
+                (df['cytological_conclusion'].isin(selected_cytological_conclusion)) &
+                (df['degree_malignancy'].isin(selected_degree_malignancy)) &
+                (df['mutation_brca'].isin(selected_mutation_brca)) &
+                (df['tumor_receptors'].isin(selected_tumor_receptors)) &
+                (df['hist_is_tumor'].isin(selected_hist_is_tumor))
 
                 ]
             
@@ -166,8 +280,33 @@ def register_callbacks(app):
         us_category_birads_counts =filtered_df['us_category_birads'].value_counts()
         us_calcinates_micro_pure_counts =filtered_df['us_calcinates_micro_pure'].value_counts()
 
+        mmg_background_breast_counts =filtered_df['mmg_background_breast'].value_counts()
+        mmg_nodle_counts =filtered_df['mmg_nodle'].value_counts()
+        mmg_nodle_contour_counts =filtered_df['mmg_nodle_contour'].value_counts()
+        mmg_nodle_size_counts =filtered_df['mmg_nodle_size'].value_counts()
+        mmg_calcifications_counts =filtered_df['mmg_calcifications'].value_counts()
+        mmg_number_formations_visualized_counts =filtered_df['mmg_number_formations_visualized'].value_counts()
+        mmg_axillary_lymph_nodes_counts =filtered_df['mmg_axillary_lymph_nodes'].value_counts()
+        type_structure_acr_counts =filtered_df['type_structure_acr'].value_counts()
+        mmg_category_birads_counts =filtered_df['mmg_category_birads'].value_counts()
 
 
+        abus_nodle_size_counts =filtered_df['abus_nodle_size'].value_counts()
+        abus_nodle_contours_counts =filtered_df['abus_nodle_contours'].value_counts()
+        abus_echogenicity_formation_counts =filtered_df['abus_echogenicity_formation'].value_counts()
+        abus_structure_counts =filtered_df['abus_structure'].value_counts()
+        abus_symptom_retraction_counts =filtered_df['abus_symptom_retraction'].value_counts()
+        abus_formation_counts =filtered_df['abus_formation'].value_counts()
+        abus_category_birads_counts =filtered_df['abus_category_birads'].value_counts()
+        abus_calcinates_counts =filtered_df['abus_calcinates'].value_counts()
+
+
+        tumor_morphology_structure_counts =filtered_df['tumor_morphology_structure'].value_counts()
+        cytological_conclusion_counts =filtered_df['cytological_conclusion'].value_counts()
+        degree_malignancy_counts =filtered_df['degree_malignancy'].value_counts()
+        mutation_brca_counts =filtered_df['mutation_brca'].value_counts()
+        tumor_receptors_counts =filtered_df['tumor_receptors'].value_counts()
+        hist_is_tumor_counts =filtered_df['hist_is_tumor'].value_counts()
 
 
 
@@ -341,7 +480,187 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        mmg_background_breast_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_background_breast_counts.index,
+                    values=mmg_background_breast_counts.values,
+                    textinfo='percent'
+                )
+            )
+        mmg_nodle_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_nodle_counts.index,
+                    values=mmg_nodle_counts.values,
+                    textinfo='percent'
+                )
+            )
+        mmg_nodle_contour_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_nodle_contour_counts.index,
+                    values=mmg_nodle_contour_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        mmg_nodle_size_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_nodle_size_counts.index,
+                    values=mmg_nodle_size_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        mmg_calcifications_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_calcifications_counts.index,
+                    values=mmg_calcifications_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        mmg_number_formations_visualized_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_number_formations_visualized_counts.index,
+                    values=mmg_number_formations_visualized_counts.values,
+                    textinfo='percent'
+                )
+            )
+        mmg_axillary_lymph_nodes_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_axillary_lymph_nodes_counts.index,
+                    values=mmg_axillary_lymph_nodes_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        type_structure_acr_fig = go.Figure(
+                go.Pie(
+                    labels=type_structure_acr_counts.index,
+                    values=type_structure_acr_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        mmg_category_birads_fig = go.Figure(
+                go.Pie(
+                    labels=mmg_category_birads_counts.index,
+                    values=mmg_category_birads_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        abus_nodle_size_fig = go.Figure(
+                go.Pie(
+                    labels=abus_nodle_size_counts.index,
+                    values=abus_nodle_size_counts.values,
+                    textinfo='percent'
+                )
+            )
+        abus_nodle_contours_fig = go.Figure(
+                go.Pie(
+                    labels=abus_nodle_contours_counts.index,
+                    values=abus_nodle_contours_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        abus_echogenicity_formation_fig = go.Figure(
+                go.Pie(
+                    labels=abus_echogenicity_formation_counts.index,
+                    values=abus_echogenicity_formation_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        abus_structure_fig = go.Figure(
+                go.Pie(
+                    labels=abus_structure_counts.index,
+                    values=abus_structure_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        abus_symptom_retraction_fig = go.Figure(
+                go.Pie(
+                    labels=abus_symptom_retraction_counts.index,
+                    values=abus_symptom_retraction_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        abus_symptom_retraction_fig = go.Figure(
+                go.Pie(
+                    labels=abus_symptom_retraction_counts.index,
+                    values=abus_symptom_retraction_counts.values,
+                    textinfo='percent'
+                )
+            )
+        abus_formation_fig = go.Figure(
+                go.Pie(
+                    labels=abus_formation_counts.index,
+                    values=abus_formation_counts.values,
+                    textinfo='percent'
+                )
+            )
+        abus_category_birads_fig = go.Figure(
+                go.Pie(
+                    labels=abus_category_birads_counts.index,
+                    values=abus_category_birads_counts.values,
+                    textinfo='percent'
+                )
+            )
+        abus_calcinates_fig = go.Figure(
+                go.Pie(
+                    labels=abus_calcinates_counts.index,
+                    values=abus_calcinates_counts.values,
+                    textinfo='percent'
+                )
+        )
+        tumor_morphology_structure_fig = go.Figure(
+                go.Pie(
+                    labels=tumor_morphology_structure_counts.index,
+                    values=tumor_morphology_structure_counts.values,
+                    textinfo='percent'
+                )
+        )
 
+        cytological_conclusion_fig = go.Figure(
+                go.Pie(
+                    labels=cytological_conclusion_counts.index,
+                    values=cytological_conclusion_counts.values,
+                    textinfo='percent'
+                )
+        )
+
+        degree_malignancy_fig = go.Figure(
+                go.Pie(
+                    labels=degree_malignancy_counts.index,
+                    values=degree_malignancy_counts.values,
+                    textinfo='percent'
+                )
+        )
+
+        mutation_brca_fig = go.Figure(
+                go.Pie(
+                    labels=mutation_brca_counts.index,
+                    values=mutation_brca_counts.values,
+                    textinfo='percent'
+                )
+                )
+        tumor_receptors_fig = go.Figure(
+                go.Pie(
+                    labels=tumor_receptors_counts.index,
+                    values=tumor_receptors_counts.values,
+                    textinfo='percent'
+                )
+                )
+        hist_is_tumor_fig = go.Figure(
+                go.Pie(
+                    labels=hist_is_tumor_counts.index,
+                    values=hist_is_tumor_counts.values,
+                    textinfo='percent'
+                )
+                )
 
         stats_panel = dbc.Card([
                 dbc.CardHeader("Статистика выборки", className="stats-header"),
@@ -350,7 +669,6 @@ def register_callbacks(app):
                     html.P(f"Средний возраст: {avg_age:.0f} лет"),
                 ])])
 
-        # save figures in a dictionary for sending to the dcc.Store
         return {"diagnosis_primary": diagnosis_primary_fig, 
                 "satus_reproductive": satus_reproductive_fig, 
                 "complaints":complaints_fig,
@@ -374,4 +692,30 @@ def register_callbacks(app):
                 "us_number_nodles":us_number_nodles_fig,
                 "us_category_birads":us_category_birads_fig,
                 "us_calcinates_micro_pure":us_calcinates_micro_pure_fig,
-                "stats-panel":stats_panel}
+                "mmg_background_breast":mmg_background_breast_fig,
+                "mmg_nodle":mmg_nodle_fig,
+                "mmg_nodle_contour":mmg_nodle_contour_fig,
+                "mmg_nodle_size":mmg_nodle_size_fig,
+                "mmg_calcifications":mmg_calcifications_fig,
+                "mmg_number_formations_visualized":mmg_number_formations_visualized_fig,
+                "mmg_axillary_lymph_nodes":mmg_axillary_lymph_nodes_fig,
+                "type_structure_acr":type_structure_acr_fig,
+                "mmg_category_birads":mmg_category_birads_fig,
+                "abus_nodle_size":abus_nodle_size_fig,
+                "abus_nodle_contours":abus_nodle_contours_fig,
+                "abus_echogenicity_formation":abus_echogenicity_formation_fig,
+                "abus_structure":abus_structure_fig,
+                "abus_symptom_retraction":abus_symptom_retraction_fig,
+                "abus_formation":abus_formation_fig,
+                "abus_category_birads":abus_category_birads_fig,
+                "abus_calcinates":abus_calcinates_fig,
+                "tumor_morphology_structure":tumor_morphology_structure_fig,
+                "cytological_conclusion":cytological_conclusion_fig,
+                "degree_malignancy":degree_malignancy_fig,
+                "mutation_brca":mutation_brca_fig,
+                "tumor_receptors":tumor_receptors_fig,
+                "hist_is_tumor":hist_is_tumor_fig,
+                "stats-panel":stats_panel,
+                
+                
+                }

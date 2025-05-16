@@ -253,7 +253,7 @@ def create_layout():
                                   )  
                        ], md=4),
                        dbc.Col([html.Label("Кальцификаты", className="filter-label"), 
-                             dcc.Dropdown(id="mmg_nodle_size-filter",
+                             dcc.Dropdown(id="mmg_calcifications-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['mmg_calcifications'].unique()],
                                   value=df['mmg_calcifications'].unique(),
                                   multi=True, 
@@ -444,7 +444,7 @@ def create_layout():
                 dbc.Tab(label="Данные УЗИ", tab_id="us_data"),
                 dbc.Tab(label="Данные ММГ", tab_id="mmg_data"),
                 dbc.Tab(label="Данные 3D УЗИ", tab_id="abus_data"),
-                dbc.Tab(label="Данные гистологии", tab_id="abus_data"),
+                dbc.Tab(label="Данные гистологии", tab_id="hist_data"),
             ],
             id="tabs",
             active_tab="anamnesis",
