@@ -445,6 +445,7 @@ def create_layout():
                 dbc.Tab(label="Данные ММГ", tab_id="mmg_data"),
                 dbc.Tab(label="Данные 3D УЗИ", tab_id="abus_data"),
                 dbc.Tab(label="Данные гистологии", tab_id="hist_data"),
+                dbc.Tab(label="вероятность", tab_id="prob_data")
             ],
             id="tabs",
             active_tab="anamnesis",

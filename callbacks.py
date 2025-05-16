@@ -89,14 +89,51 @@ def register_callbacks(app):
             elif active_tab == "hist_data":
                 return [
                     dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
-                    dbc.Row(
+                    dbc.Col(
                     [
-                        dbc.Col(dcc.Graph(figure=data["tumor_morphology_structure"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["cytological_conclusion"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["degree_malignancy"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mutation_brca"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["tumor_receptors"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["hist_is_tumor"]), width=6)
+                        html.Label("Морфология", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["tumor_morphology_structure"]), width=12),
+                        html.Label("Цитология", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["cytological_conclusion"]), width=12),
+                        html.Label("Уровень малигнизации", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["degree_malignancy"]), width=12),
+                        html.Label("Мутация BRCA", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["mutation_brca"]), width=12),
+                        html.Label("Рецепторы опухолия", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["tumor_receptors"]), width=12),
+                        html.Label("Наличие ЗНО", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["hist_is_tumor"]), width=12)
+
+                    ]
+                )]
+            elif active_tab == "prob_data":
+                return [
+                    dbc.Col(dbc.Col(html.Div(data["stats-panel"]))),
+                    
+                    dbc.Col(
+                    [
+                        html.Label("Вероятность опредления кальцинатов по УЗИ", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["us_probabilityCalc"]), width=12)
+                    ]),
+                     dbc.Col(
+                    [
+                         html.Label("Вероятность опредления кальцинатов по 3d УЗИ", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["abus_probabilityCalc"]), width=12)
+                     ]),
+                     dbc.Col(
+                    [
+                        html.Label("Вероятность опредления ЗНО по  УЗИ", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["us_probabilityNeoCa"]), width=12),
+                         ]),
+                     dbc.Col(
+                    [
+                        html.Label("Вероятность опредления ЗНО по 3d УЗИ", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["abus_probabilityNeoCa"]), width=12),
+                         ]),
+                     dbc.Col(
+                    [
+                        html.Label("Вероятность опредления ЗНО по ММГ", className="filter-label"),
+                        dbc.Col(dcc.Graph(figure=data["mmg_probabilityNeoCa"]), width=12)
 
                     ]
                 )]
@@ -254,6 +291,12 @@ def register_callbacks(app):
 
         total_patients = len(filtered_df)
         avg_age = filtered_df['age_patient'].mean()
+        avg_us_probabilityCalc = filtered_df['us_probabilityCalc'].mean()
+        avg_abus_probabilityCalc = filtered_df['abus_probabilityCalc'].mean()
+        avg_us_probabilityNeoCa= filtered_df['us_probabilityNeoCa'].mean()
+        avg_abus_probabilityNeoCa= filtered_df['abus_probabilityNeoCa'].mean()
+        avg_mmg_probabilityNeoCa= filtered_df['mmg_probabilityNeoCa'].mean()
+
 
         diagnosis_primary_counts =filtered_df['diagnosis_primary'].value_counts()
         satus_reproductive_counts =filtered_df['satus_reproductive'].value_counts()
@@ -661,12 +704,47 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
                 )
+        us_probabilityCalc_fig = go.Figure(go.Histogram(
+                x=filtered_df['us_probabilityCalc'],
+                opacity=0.7,
+                marker=dict(line=dict(width=1, color='DarkSlateGrey'))
+            ))
+
+        abus_probabilityCalc_fig = go.Figure(go.Histogram(
+                x=filtered_df['abus_probabilityCalc'],
+                opacity=0.7,
+                marker=dict(line=dict(width=1, color='DarkSlateGrey'))
+            ))
+
+        us_probabilityNeoCa_fig = go.Figure(go.Histogram(
+                x=filtered_df['us_probabilityNeoCa'],
+                opacity=0.7,
+                marker=dict(line=dict(width=1, color='DarkSlateGrey'))
+            ))
+        abus_probabilityNeoCa_fig = go.Figure(go.Histogram(
+                x=filtered_df['abus_probabilityNeoCa'],
+                opacity=0.7,
+                marker=dict(line=dict(width=1, color='DarkSlateGrey'))
+            ))
+        mmg_probabilityNeoCa_fig = go.Figure(go.Histogram(
+                x=filtered_df['mmg_probabilityNeoCa'],
+                opacity=0.7,
+                marker=dict(line=dict(width=1, color='DarkSlateGrey'))
+            ))
+
+        
+        
 
         stats_panel = dbc.Card([
                 dbc.CardHeader("Статистика выборки", className="stats-header"),
                 dbc.CardBody([
                     html.P(f"Всего пациентов: {total_patients}"),
                     html.P(f"Средний возраст: {avg_age:.0f} лет"),
+                    html.P(f"Средняя вероятность обнаружения кальцинатов по УЗИ: {avg_us_probabilityCalc:.5f}"),
+                    html.P(f"Средняя вероятность обнаружения кальцинатов по 3d УЗИ: {avg_abus_probabilityCalc:.5f}"),
+                    html.P(f"Средняя вероятность обнаружения ЗНО по УЗИ: {avg_us_probabilityNeoCa:.5f}"),
+                    html.P(f"Средняя вероятность обнаружения ЗНО по 3d УЗИ: {avg_abus_probabilityNeoCa:.5f}"),
+                    html.P(f"Средняя вероятность обнаружения ЗНО по ММГ: {avg_mmg_probabilityNeoCa:.5f}"),
                 ])])
 
         return {"diagnosis_primary": diagnosis_primary_fig, 
@@ -715,6 +793,11 @@ def register_callbacks(app):
                 "mutation_brca":mutation_brca_fig,
                 "tumor_receptors":tumor_receptors_fig,
                 "hist_is_tumor":hist_is_tumor_fig,
+                "us_probabilityCalc":us_probabilityCalc_fig,
+                "abus_probabilityCalc":abus_probabilityCalc_fig,
+                "us_probabilityNeoCa":us_probabilityNeoCa_fig,
+                "abus_probabilityNeoCa":abus_probabilityNeoCa_fig,
+                "mmg_probabilityNeoCa":mmg_probabilityNeoCa_fig,
                 "stats-panel":stats_panel,
                 
                 
