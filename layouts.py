@@ -12,8 +12,8 @@ def create_layout():
     
 
         html.H1("Анализ скрининга молочной железы"),
-        dcc.Markdown(st.EXPLAINER),
-        dbc.Row([html.H2("Данные анамнеза", className="filter-label"),
+        dcc.Markdown(st.EXPLAINER, className="explainer"),
+        dbc.Row([html.H2("Данные анамнеза", className="h2-label"),
                     dbc.Col([html.Label("Диагноз", className="filter-label"), 
                         dcc.Dropdown(id="diagnosis_primary-filter",
                                   options=[{'label': dp, 'value': dp } for dp in df['diagnosis_primary'].unique()],

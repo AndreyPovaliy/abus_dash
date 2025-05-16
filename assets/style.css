@@ -1,0 +1,55 @@
+body{
+    font-size: 16px;
+    color: #003d6e ;
+    background-color: rgb(241, 241, 241);
+    margin: 0;
+    padding: 0;
+}
+
+.h2-label{
+    text-align: center;
+    font-size: 36px;
+
+}
+.explainer{
+    text-align: center;
+    font-size: 12px;
+    background-color: rgb(215, 216, 245);
+
+}
+.filter-label{
+    text-align: center;
+    font-size: 16px;
+    
+    
+}
+
+.card-subtitle{
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: #403e3e9a ;
+    
+}
+
+.card-text{
+    font-size: 16px;
+    background: #f7f9fe
+}
+
+.mb-4.navbar.navbar-expand-md.navbar-dark.bg-primary{
+    background: #403e3ec8 ;
+}
+
+.mb-2{
+    background-color:#ffffff;
+    box-shadow: #2d2c2c9a;
+}
+
+.card-body{
+    background-color: #ffffff;
+    box-shadow: #2d2c2c9a;
+}
+
+.form-control{
+    margin-top: 20px;
+}
