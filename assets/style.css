@@ -6,14 +6,37 @@ body{
     padding: 0;
 }
 
+.stats-header{
+    font-size: 16px;
+    color: #003d6e ;
+    background-color: rgb(241, 241, 241);
+    margin: 0;
+    padding: 0;
+
+}
+
+.stats-body{
+    font-size: 16px;
+    color: #003d6e ;
+    background-color: rgb(241, 241, 241);
+    margin: 5;
+    padding: 5;
+}
+
+.h1-label{
+    text-align: center;
+    font-size: 40px;
+
+}
+
 .h2-label{
     text-align: center;
-    font-size: 36px;
+    font-size: 24px;
 
 }
 .explainer{
     text-align: center;
-    font-size: 12px;
+    font-size: 18px;
     background-color: rgb(215, 216, 245);
 
 }
@@ -24,10 +47,10 @@ body{
     
 }
 
-.card-subtitle{
+.tabs{
     font-size: 25px;
     margin-bottom: 10px;
-    color: #403e3e9a ;
+    color: #350daec4 ;
     
 }
 
@@ -53,3 +76,4 @@ body{
 .form-control{
     margin-top: 20px;
 }
+

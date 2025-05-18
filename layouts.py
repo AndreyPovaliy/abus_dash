@@ -8,13 +8,23 @@ df = pd.read_csv('data/us_data.csv')
 
 
 def create_layout():
-    return dbc.Container([
-    
+    return dbc.Container([  
 
-        html.H1("Анализ скрининга молочной железы"),
+        html.H1("Анализ скрининга молочной железы", className="h1-label"),
         dcc.Markdown(st.EXPLAINER, className="explainer"),
-        dbc.Row([html.H2("Данные анамнеза", className="h2-label"),
-                    dbc.Col([html.Label("Диагноз", className="filter-label"), 
+        html.H2("Показатели для выбора:", className="h2-label"),
+        dbc.Col([
+            dbc.Button(
+            "Данные анамнеза",
+            id="collapse-button-anamnesis",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+                html.H2("Данные анамнеза", className="h2-label"),
+                dbc.Col([html.Label("Диагноз", className="filter-label"), 
                         dcc.Dropdown(id="diagnosis_primary-filter",
                                   options=[{'label': dp, 'value': dp } for dp in df['diagnosis_primary'].unique()],
                                   value=df['diagnosis_primary'].unique(),
@@ -22,7 +32,7 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=12),
-                    dbc.Col([html.Label("Группа", className="filter-label"), 
+               dbc.Row([dbc.Col([html.Label("Группа", className="filter-label"), 
                         dcc.Dropdown(id="group-filter",
                                   options=[{'label': g, 'value': g } for g in df['group_separation'].unique()],
                                   value=df['group_separation'].unique(),
@@ -30,7 +40,7 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=4),
-                    dbc.Col([html.Label("Жалобы", className="filter-label"), 
+               dbc.Col([html.Label("Жалобы", className="filter-label"), 
                         dcc.Dropdown(id="complaints-filter",
                                   options=[{'label': cmpl, 'value': cmpl } for cmpl in df['complaints'].unique()],
                                   value=df['complaints'].unique(),
@@ -38,15 +48,7 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=4),
-                    dbc.Col([html.Label("Операции ранее", className="filter-label"), 
-                        dcc.Dropdown(id="breast_surgery_before-filter",
-                                  options=[{'label': bsb, 'value': bsb } for bsb in df['breast_surgery_before'].unique()],
-                                  value=df['breast_surgery_before'].unique(),
-                                  multi=True, 
-                                  className="filter-dropdown",
-                                  style=st.DROPDOWN_STYLE,
-                                  )], md=4),
-                    dbc.Col([html.Label("Симптомы на коже", className="filter-label"), 
+                                  dbc.Col([html.Label("Симптомы на коже", className="filter-label"), 
                         dcc.Dropdown(id="skin_symptoms-filter",
                                   options=[{'label': sks, 'value': sks } for sks in df['skin_symptoms'].unique()],
                                   value=df['skin_symptoms'].unique(),
@@ -54,6 +56,18 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=4),
+
+                                  ]),
+                    dbc.Row([
+                        dbc.Col([html.Label("Операции ранее", className="filter-label"), 
+                        dcc.Dropdown(id="breast_surgery_before-filter",
+                                  options=[{'label': bsb, 'value': bsb } for bsb in df['breast_surgery_before'].unique()],
+                                  value=df['breast_surgery_before'].unique(),
+                                  multi=True, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=4),
+                    
                     dbc.Col([html.Label("Симптом ретракции", className="filter-label"), 
                         dcc.Dropdown(id="nipple_retraction-filter",
                                   options=[{'label': nr, 'value': nr } for nr in df['nipple_retraction'].unique()],
@@ -69,15 +83,17 @@ def create_layout():
                                   multi=True, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
-                                  )], md=4),
-                    dbc.Col([html.Label("Наследственность", className="filter-label"), 
+                                  )], md=4)
+                        
+                    ]),
+                    dbc.Row([dbc.Col([html.Label("Наследственность", className="filter-label"), 
                         dcc.Dropdown(id="genetics-filter",
                                   options=[{'label': g, 'value': g } for g in df['genetics'].unique()],
                                   value=df['genetics'].unique(),
                                   multi=True, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
-                                  )], md=4),
+                                  )], md=6),
                     dbc.Col([html.Label("Прием гормональных препаратов", className="filter-label"), 
                         dcc.Dropdown(id="hormonal_medications-filter",
                                   options=[{'label': hm, 'value': hm } for hm in df['hormonal_medications'].unique()],
@@ -85,10 +101,21 @@ def create_layout():
                                   multi=True, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
-                                  )], md=4),
-                    ], className="filters-row"),
-        dbc.Row([html.H2("Данные УЗИ", className="filter-label"),
-                    dbc.Col([html.Label("УЗ-контур", className="filter-label"), 
+                                  )], md=6)]),
+                
+                ]), id="collapse-an", is_open=False,
+        ),
+         dbc.Button(
+            "Данные УЗИ",
+            id="collapse-button-us",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+                html.H2("Данные УЗИ", className="h2-label"),
+                dbc.Row([dbc.Col([html.Label("УЗ-контур", className="filter-label"), 
                              dcc.Dropdown(id="us_nodle_contour-filter",
                                   options=[{'label': us_c, 'value': us_c } for us_c in df['us_nodle_contour'].unique()],
                                   value=df['us_nodle_contour'].unique(),
@@ -97,7 +124,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("УЗ-протоки", className="filter-label"), 
+               dbc.Col([html.Label("УЗ-протоки", className="filter-label"), 
                              dcc.Dropdown(id="us_ducts-filter",
                                   options=[{'label': us_d, 'value': us_d } for us_d in df['us_ducts'].unique()],
                                   value=df['us_ducts'].unique(),
@@ -106,7 +133,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("УЗ-фон", className="filter-label"), 
+               dbc.Col([html.Label("УЗ-фон", className="filter-label"), 
                              dcc.Dropdown(id="us_background-filter",
                                   options=[{'label': us_b, 'value': us_b } for us_b in df['us_background'].unique()],
                                   value=df['us_background'].unique(),
@@ -114,8 +141,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Локализация", className="filter-label"), 
+                       ], md=4)]),
+               dbc.Col([html.Label("Локализация", className="filter-label"), 
                              dcc.Dropdown(id="us_formation-filter",
                                   options=[{'label': us_l, 'value': us_l } for us_l in df['us_formation'].unique()],
                                   value=df['us_formation'].unique(),
@@ -124,7 +151,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=12),
-                        dbc.Col([html.Label("Форма", className="filter-label"), 
+               dbc.Row([dbc.Col([html.Label("Форма", className="filter-label"), 
                              dcc.Dropdown(id="us_form-filter",
                                   options=[{'label': us_f, 'value': us_f } for us_f in df['us_form'].unique()],
                                   value=df['us_form'].unique(),
@@ -133,7 +160,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("Размер", className="filter-label"), 
+               dbc.Col([html.Label("Размер", className="filter-label"), 
                              dcc.Dropdown(id="us_nodle_size-filter",
                                   options=[{'label': us_f, 'value': us_f } for us_f in df['us_nodle_size'].unique()],
                                   value=df['us_nodle_size'].unique(),
@@ -142,7 +169,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("Эхогенность", className="filter-label"), 
+               dbc.Col([html.Label("Эхогенность", className="filter-label"), 
                              dcc.Dropdown(id="us_echogenicity_formation-filter",
                                   options=[{'label': us_e, 'value': us_e } for us_e in df['us_echogenicity_formation'].unique()],
                                   value=df['us_echogenicity_formation'].unique(),
@@ -150,8 +177,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("УЗ-структура", className="filter-label"), 
+                       ], md=4)]),
+               dbc.Row([dbc.Col([html.Label("УЗ-структура", className="filter-label"), 
                              dcc.Dropdown(id="us_structure-filter",
                                   options=[{'label': us_str, 'value': us_str } for us_str in df['us_structure'].unique()],
                                   value=df['us_structure'].unique(),
@@ -160,7 +187,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("УЗ-кровоток", className="filter-label"), 
+               dbc.Col([html.Label("УЗ-кровоток", className="filter-label"), 
                              dcc.Dropdown(id="us_formation_blood_flow-filter",
                                   options=[{'label': us_bf, 'value': us_bf } for us_bf in df['us_formation_blood_flow'].unique()],
                                   value=df['us_formation_blood_flow'].unique(),
@@ -169,7 +196,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("Эластография", className="filter-label"), 
+               dbc.Col([html.Label("Эластография", className="filter-label"), 
                              dcc.Dropdown(id="us_elastography-filter",
                                   options=[{'label': us_el, 'value': us_el } for us_el in df['us_elastography'].unique()],
                                   value=df['us_elastography'].unique(),
@@ -177,8 +204,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Регионарные лимфоузлы", className="filter-label"), 
+                       ], md=4)]),
+               dbc.Row([dbc.Col([html.Label("Регионарные лимфоузлы", className="filter-label"), 
                              dcc.Dropdown(id="us_region_lymph_nodes-filter",
                                   options=[{'label': us_lymph, 'value': us_lymph } for us_lymph in df['us_region_lymph_nodes'].unique()],
                                   value=df['us_region_lymph_nodes'].unique(),
@@ -187,7 +214,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("Количество узлов", className="filter-label"), 
+               dbc.Col([html.Label("Количество узлов", className="filter-label"), 
                              dcc.Dropdown(id="us_number_nodles-filter",
                                   options=[{'label': us_n, 'value': us_n } for us_n in df['us_number_nodles'].unique()],
                                   value=df['us_number_nodles'].unique(),
@@ -196,7 +223,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                       dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
+               dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
                              dcc.Dropdown(id="us_category_birads-filter",
                                   options=[{'label': us_cat, 'value': us_cat } for us_cat in df['us_category_birads'].unique()],
                                   value=df['us_category_birads'].unique(),
@@ -204,8 +231,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Определение микрокальцинатов", className="filter-label"), 
+                       ], md=4)]),
+               dbc.Col([html.Label("Определение микрокальцинатов", className="filter-label"), 
                              dcc.Dropdown(id="us_calcinates_micro_pure-filter",
                                   options=[{'label': us_cat, 'value': us_cat } for us_cat in df['us_calcinates_micro_pure'].unique()],
                                   value=df['us_calcinates_micro_pure'].unique(),
@@ -213,10 +240,23 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4)
-                    ]),
-        dbc.Row([html.H2("Данные ММГ", className="filter-label"),
-                    dbc.Col([html.Label("ММГ-фон", className="filter-label"), 
+                       ], md=12)
+                
+                                  ]
+                ), id="collapse-us",
+            is_open=False,
+        ),
+         dbc.Button(
+            "Данные ММГ",
+            id="collapse-button-mmg",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+                         html.H2("Данные ММГ", className="h2-label"),
+          dbc.Col([html.Label("ММГ-фон", className="filter-label"), 
                              dcc.Dropdown(id="mmg_background_breast-filter",
                                   options=[{'label': mmg_b, 'value': mmg_b } for mmg_b in df['mmg_background_breast'].unique()],
                                   value=df['mmg_background_breast'].unique(),
@@ -224,8 +264,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Качество узла", className="filter-label"), 
+                       ], md=12),
+          dbc.Row([dbc.Col([html.Label("Качество узла", className="filter-label"), 
                              dcc.Dropdown(id="mmg_nodle-filter",
                                   options=[{'label': mmg_b, 'value': mmg_b } for mmg_b in df['mmg_nodle'].unique()],
                                   value=df['mmg_nodle'].unique(),
@@ -233,8 +273,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Контур узла", className="filter-label"), 
+                       ], md=6),
+          dbc.Col([html.Label("Контур узла", className="filter-label"), 
                              dcc.Dropdown(id="mmg_nodle_contour-filter",
                                   options=[{'label': mmg_nc, 'value': mmg_nc } for mmg_nc in df['mmg_nodle_contour'].unique()],
                                   value=df['mmg_nodle_contour'].unique(),
@@ -242,8 +282,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Размер узла", className="filter-label"), 
+                       ], md=6)]),
+          dbc.Row([dbc.Col([html.Label("Размер узла", className="filter-label"), 
                              dcc.Dropdown(id="mmg_nodle_size-filter",
                                   options=[{'label': mmg_ns, 'value': mmg_ns } for mmg_ns in df['mmg_nodle_size'].unique()],
                                   value=df['mmg_nodle_size'].unique(),
@@ -251,8 +291,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Кальцификаты", className="filter-label"), 
+                       ], md=6),
+          dbc.Col([html.Label("Кальцификаты", className="filter-label"), 
                              dcc.Dropdown(id="mmg_calcifications-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['mmg_calcifications'].unique()],
                                   value=df['mmg_calcifications'].unique(),
@@ -260,8 +300,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Визуализируемые образования", className="filter-label"), 
+                       ], md=6)]),
+          dbc.Row([dbc.Col([html.Label("Визуализируемые образования", className="filter-label"), 
                              dcc.Dropdown(id="mmg_number_formations_visualized-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['mmg_number_formations_visualized'].unique()],
                                   value=df['mmg_number_formations_visualized'].unique(),
@@ -269,8 +309,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Подмышечные лимфоузлы", className="filter-label"), 
+                       ], md=6),
+          dbc.Col([html.Label("Подмышечные лимфоузлы", className="filter-label"), 
                              dcc.Dropdown(id="mmg_axillary_lymph_nodes-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['mmg_axillary_lymph_nodes'].unique()],
                                   value=df['mmg_axillary_lymph_nodes'].unique(),
@@ -278,8 +318,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Тип структуры ACR", className="filter-label"), 
+                       ], md=6)]),
+          dbc.Row([dbc.Col([html.Label("Тип структуры ACR", className="filter-label"), 
                              dcc.Dropdown(id="type_structure_acr-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['type_structure_acr'].unique()],
                                   value=df['type_structure_acr'].unique(),
@@ -287,8 +327,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
+                       ], md=6),
+          dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
                              dcc.Dropdown(id="mmg_category_birads-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df['mmg_category_birads'].unique()],
                                   value=df['mmg_category_birads'].unique(),
@@ -296,12 +336,25 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                       
-                       
-                       ]),
-            dbc.Row([html.H2("Данные 3D УЗИ", className="filter-label"),
-                    dbc.Col([html.Label("Размер узлов", className="filter-label"), 
+                       ], md=6)])
+
+                
+                                  ]
+                ), id="collapse-mmg",
+            is_open=False,
+        ),
+        dbc.Button(
+            "Данные 3d УЗИ",
+            id="collapse-button-abus",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+               html.H2("Данные 3D УЗИ", className="h2-label"),
+               dbc.Row([
+                dbc.Col([html.Label("Размер узлов", className="filter-label"), 
                              dcc.Dropdown(id="abus_nodle_size-filter",
                                   options=[{'label': ab_ns, 'value': ab_ns } for ab_ns in df['abus_nodle_size'].unique()],
                                   value=df['abus_nodle_size'].unique(),
@@ -310,7 +363,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                    dbc.Col([html.Label("Контур узлов", className="filter-label"), 
+               dbc.Col([html.Label("Контур узлов", className="filter-label"), 
                              dcc.Dropdown(id="abus_nodle_contours-filter",
                                   options=[{'label': ab_nc, 'value': ab_nc } for ab_nc in df['abus_nodle_contours'].unique()],
                                   value=df['abus_nodle_contours'].unique(),
@@ -319,7 +372,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                    dbc.Col([html.Label("Эхогенность", className="filter-label"), 
+               dbc.Col([html.Label("Эхогенность", className="filter-label"), 
                              dcc.Dropdown(id="abus_echogenicity_formation-filter",
                                   options=[{'label': ab_ef, 'value': ab_ef } for ab_ef in df['abus_echogenicity_formation'].unique()],
                                   value=df['abus_echogenicity_formation'].unique(),
@@ -328,7 +381,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                    dbc.Col([html.Label("Структура", className="filter-label"), 
+               dbc.Col([html.Label("Структура", className="filter-label"), 
                              dcc.Dropdown(id="abus_structure-filter",
                                   options=[{'label': ab_s, 'value': ab_s } for ab_s in df['abus_structure'].unique()],
                                   value=df['abus_structure'].unique(),
@@ -336,8 +389,18 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                    dbc.Col([html.Label("Симптом ретаркции", className="filter-label"), 
+                       ], md=12),
+               
+               dbc.Col([html.Label("Форма", className="filter-label"), 
+                             dcc.Dropdown(id="abus_formation-filter",
+                                  options=[{'label': ab_f, 'value': ab_f } for ab_f in df['abus_formation'].unique()],
+                                  value=df['abus_formation'].unique(),
+                                  multi=True, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=12),
+               dbc.Col([html.Label("Симптом ретаркции", className="filter-label"), 
                              dcc.Dropdown(id="abus_symptom_retraction-filter",
                                   options=[{'label': ab_sr, 'value': ab_sr } for ab_sr in df['abus_symptom_retraction'].unique()],
                                   value=df['abus_symptom_retraction'].unique(),
@@ -346,16 +409,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                    dbc.Col([html.Label("Форма", className="filter-label"), 
-                             dcc.Dropdown(id="abus_formation-filter",
-                                  options=[{'label': ab_f, 'value': ab_f } for ab_f in df['abus_formation'].unique()],
-                                  value=df['abus_formation'].unique(),
-                                  multi=True, 
-                                  className="filter-dropdown",
-                                  style=st.DROPDOWN_STYLE,
-                                  )  
-                       ], md=4),
-                    dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
+               dbc.Col([html.Label("Категория BIRADS", className="filter-label"), 
                              dcc.Dropdown(id="abus_category_birads-filter",
                                   options=[{'label': ab_f, 'value': ab_f } for ab_f in df['abus_category_birads'].unique()],
                                   value=df['abus_category_birads'].unique(),
@@ -364,7 +418,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=4),
-                    dbc.Col([html.Label("УЗ кальцинаты", className="filter-label"), 
+               dbc.Col([html.Label("УЗ кальцинаты", className="filter-label"), 
                              dcc.Dropdown(id="abus_calcinates-filter",
                                   options=[{'label': ab_f, 'value': ab_f } for ab_f in df['abus_calcinates'].unique()],
                                   value=df['abus_calcinates'].unique(),
@@ -372,11 +426,25 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4)
+                       ], md=4)])
 
-            ]),
-            dbc.Row([html.H2("Данные гистологии", className="filter-label"),
-                    dbc.Col([html.Label("Морфология", className="filter-label"), 
+                
+                                  ]
+                ), id="collapse-abus",
+            is_open=False,
+        ),
+        dbc.Button(
+            "Данные гистологии",
+            id="collapse-button-hist",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+               html.H2("Данные гистологии", className="h2-label"),
+               dbc.Row([
+               dbc.Col([html.Label("Морфология", className="filter-label"), 
                              dcc.Dropdown(id="tumor_morphology_structure-filter",
                                   options=[{'label': morph, 'value': morph } for morph in df['tumor_morphology_structure'].unique()],
                                   value=df['tumor_morphology_structure'].unique(),
@@ -384,9 +452,9 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
+                       ], md=12),
             
-                    dbc.Col([html.Label("Заключение цитологии", className="filter-label"), 
+               dbc.Col([html.Label("Заключение цитологии", className="filter-label"), 
                              dcc.Dropdown(id="cytological_conclusion-filter",
                                   options=[{'label': cyt, 'value': cyt } for cyt in df['cytological_conclusion'].unique()],
                                   value=df['cytological_conclusion'].unique(),
@@ -394,12 +462,12 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
+                       ], md=6),
 
             
 
    
-                    dbc.Col([html.Label("Уровень малигнизации", className="filter-label"), 
+               dbc.Col([html.Label("Уровень малигнизации", className="filter-label"), 
                              dcc.Dropdown(id="degree_malignancy-filter",
                                   options=[{'label': cyt, 'value': cyt } for cyt in df['degree_malignancy'].unique()],
                                   value=df['degree_malignancy'].unique(),
@@ -407,8 +475,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                    dbc.Col([html.Label("Мутация BRCA", className="filter-label"), 
+                       ], md=6),
+               dbc.Col([html.Label("Мутация BRCA", className="filter-label"), 
                              dcc.Dropdown(id="mutation_brca-filter",
                                   options=[{'label': cyt, 'value': cyt } for cyt in df['mutation_brca'].unique()],
                                   value=df['mutation_brca'].unique(),
@@ -416,8 +484,9 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                    dbc.Col([html.Label("Рецепторы опухоли", className="filter-label"), 
+                       ], md=6),
+               
+               dbc.Col([html.Label("Рецепторы опухоли", className="filter-label"), 
                              dcc.Dropdown(id="tumor_receptors-filter",
                                   options=[{'label': cyt, 'value': cyt } for cyt in df['tumor_receptors'].unique()],
                                   value=df['tumor_receptors'].unique(),
@@ -425,8 +494,8 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
-                    dbc.Col([html.Label("Подвержденное ЗНО", className="filter-label"), 
+                       ], md=6),
+               dbc.Col([
                              dcc.Dropdown(id="hist_is_tumor-filter",
                                   options=[{'label': t, 'value': t } for t in df['hist_is_tumor'].unique()],
                                   value=df['hist_is_tumor'].unique(),
@@ -434,10 +503,17 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )  
-                       ], md=4),
+                       ], md=12)]),
 
-            ]),
-   
+                
+                                  ]
+                ), id="collapse-hist",
+            is_open=False,
+        ),
+
+
+        ]),
+        html.H2("Визуализация данных:", className="h2-label"),
         dbc.Tabs(
             [
                 dbc.Tab(label="Данные анамнеза", tab_id="anamnesis"),
@@ -445,7 +521,7 @@ def create_layout():
                 dbc.Tab(label="Данные ММГ", tab_id="mmg_data"),
                 dbc.Tab(label="Данные 3D УЗИ", tab_id="abus_data"),
                 dbc.Tab(label="Данные гистологии", tab_id="hist_data"),
-                dbc.Tab(label="вероятность", tab_id="prob_data")
+                dbc.Tab(label="Вероятность", tab_id="prob_data")
             ],
             id="tabs",
             active_tab="anamnesis",

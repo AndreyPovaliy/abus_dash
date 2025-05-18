@@ -1,12 +1,63 @@
-from dash import html, Input, Output
+from dash import html, Input, State, Output
 import plotly.graph_objects as go
 import pandas as pd
 import dash_bootstrap_components as dbc
 from dash import dcc, html
+import settings as st
 
 df = pd.read_csv('data/us_data.csv')
 
 def register_callbacks(app):
+    @app.callback(
+    Output("collapse-an", "is_open"),
+    [Input("collapse-button-anamnesis", "n_clicks")],
+    [State("collapse-an", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-us", "is_open"),
+    [Input("collapse-button-us", "n_clicks")],
+    [State("collapse-us", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-mmg", "is_open"),
+    [Input("collapse-button-mmg", "n_clicks")],
+    [State("collapse-mmg", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-abus", "is_open"),
+    [Input("collapse-button-abus", "n_clicks")],
+    [State("collapse-abus", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-hist", "is_open"),
+    [Input("collapse-button-hist", "n_clicks")],
+    [State("collapse-hist", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
     @app.callback(
     Output("tab-content", "children"),
     [Input("tabs", "active_tab"), Input("store", "data")],
@@ -132,7 +183,6 @@ def register_callbacks(app):
                          ]),
                      dbc.Col(
                     [
-                        html.Label("Вероятность опредления ЗНО по ММГ", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["mmg_probabilityNeoCa"]), width=12)
 
                     ]
@@ -537,6 +587,7 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
         mmg_nodle_contour_fig = go.Figure(
                 go.Pie(
                     labels=mmg_nodle_contour_counts.index,
@@ -544,7 +595,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
-        
+            
+        mmg_nodle_contour_fig.update_layout(
+            title='Контур',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         mmg_nodle_size_fig = go.Figure(
                 go.Pie(
                     labels=mmg_nodle_size_counts.index,
@@ -552,6 +614,19 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+       
+        
+        mmg_nodle_size_fig.update_layout(
+            title='Размеры узлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         mmg_calcifications_fig = go.Figure(
                 go.Pie(
@@ -561,6 +636,17 @@ def register_callbacks(app):
                 )
             )
         
+        mmg_calcifications_fig.update_layout(
+            title='Кальцификаты',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         mmg_number_formations_visualized_fig = go.Figure(
                 go.Pie(
                     labels=mmg_number_formations_visualized_counts.index,
@@ -568,6 +654,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        mmg_number_formations_visualized_fig.update_layout(
+            title='Количество лимфоузлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         mmg_axillary_lymph_nodes_fig = go.Figure(
                 go.Pie(
                     labels=mmg_axillary_lymph_nodes_counts.index,
@@ -575,6 +673,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        mmg_axillary_lymph_nodes_fig.update_layout(
+            title='Подмышечные лимфоузлы',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         type_structure_acr_fig = go.Figure(
                 go.Pie(
@@ -584,6 +693,17 @@ def register_callbacks(app):
                 )
             )
         
+        type_structure_acr_fig.update_layout(
+            title='Тип структуры ACR',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         mmg_category_birads_fig = go.Figure(
                 go.Pie(
                     labels=mmg_category_birads_counts.index,
@@ -592,6 +712,17 @@ def register_callbacks(app):
                 )
             )
         
+        mmg_category_birads_fig.update_layout(
+            title='Категория BIRADS',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         abus_nodle_size_fig = go.Figure(
                 go.Pie(
                     labels=abus_nodle_size_counts.index,
@@ -599,6 +730,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        abus_nodle_size_fig.update_layout(
+            title='Размер',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         abus_nodle_contours_fig = go.Figure(
                 go.Pie(
                     labels=abus_nodle_contours_counts.index,
@@ -606,6 +749,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        abus_nodle_contours_fig.update_layout(
+            title='Контуры',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         abus_echogenicity_formation_fig = go.Figure(
                 go.Pie(
@@ -615,6 +769,17 @@ def register_callbacks(app):
                 )
             )
         
+        abus_echogenicity_formation_fig.update_layout(
+            title='Эхогенность',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         abus_structure_fig = go.Figure(
                 go.Pie(
                     labels=abus_structure_counts.index,
@@ -623,13 +788,18 @@ def register_callbacks(app):
                 )
             )
         
-        abus_symptom_retraction_fig = go.Figure(
-                go.Pie(
-                    labels=abus_symptom_retraction_counts.index,
-                    values=abus_symptom_retraction_counts.values,
-                    textinfo='percent'
-                )
-            )
+       
+        
+        abus_structure_fig.update_layout(
+            title='Структура',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         abus_symptom_retraction_fig = go.Figure(
                 go.Pie(
@@ -638,6 +808,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        abus_symptom_retraction_fig.update_layout(
+            title='Симптом ретракции',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         abus_formation_fig = go.Figure(
                 go.Pie(
                     labels=abus_formation_counts.index,
@@ -645,6 +826,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        abus_formation_fig.update_layout(
+            title='Локализация',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         abus_category_birads_fig = go.Figure(
                 go.Pie(
                     labels=abus_category_birads_counts.index,
@@ -652,6 +845,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        abus_category_birads_fig.update_layout(
+            title='Категория BIRADS',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         abus_calcinates_fig = go.Figure(
                 go.Pie(
                     labels=abus_calcinates_counts.index,
@@ -659,12 +863,34 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
         )
+
+        abus_calcinates_fig.update_layout(
+            title='Кальцинаты',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         tumor_morphology_structure_fig = go.Figure(
                 go.Pie(
                     labels=tumor_morphology_structure_counts.index,
                     values=tumor_morphology_structure_counts.values,
                     textinfo='percent'
                 )
+        )
+
+        tumor_morphology_structure_fig.update_layout(
+            title='Морфологическая структура',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
         )
 
         cytological_conclusion_fig = go.Figure(
@@ -675,12 +901,34 @@ def register_callbacks(app):
                 )
         )
 
+        cytological_conclusion_fig.update_layout(
+            title='Заключение цитологии',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         degree_malignancy_fig = go.Figure(
                 go.Pie(
                     labels=degree_malignancy_counts.index,
                     values=degree_malignancy_counts.values,
                     textinfo='percent'
                 )
+        )
+
+        degree_malignancy_fig.update_layout(
+            title='Уровень малигнизации',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
         )
 
         mutation_brca_fig = go.Figure(
@@ -690,6 +938,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
                 )
+        mutation_brca_fig.update_layout(
+            title='Мутация BRCA',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         tumor_receptors_fig = go.Figure(
                 go.Pie(
                     labels=tumor_receptors_counts.index,
@@ -697,6 +956,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
                 )
+        
+        tumor_receptors_fig.update_layout(
+            title='Рецрепторы к опухоли',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         hist_is_tumor_fig = go.Figure(
                 go.Pie(
                     labels=hist_is_tumor_counts.index,
@@ -704,33 +975,126 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
                 )
+        hist_is_tumor_fig.update_layout(
+            title='Наличие ЗНО',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         us_probabilityCalc_fig = go.Figure(go.Histogram(
                 x=filtered_df['us_probabilityCalc'],
                 opacity=0.7,
                 marker=dict(line=dict(width=1, color='DarkSlateGrey'))
             ))
+        
+        us_probabilityCalc_fig.update_layout(
+            title="Вероятность определения кальцинатов методом УЗИ",
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            xaxis_title="Вероятность",
+            yaxis_title="Количество",
+            xaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            yaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+            font=dict(family="Roboto, sans-serif"),
+            barmode='overlay',
+        )
 
         abus_probabilityCalc_fig = go.Figure(go.Histogram(
                 x=filtered_df['abus_probabilityCalc'],
                 opacity=0.7,
                 marker=dict(line=dict(width=1, color='DarkSlateGrey'))
             ))
+        
+        abus_probabilityCalc_fig.update_layout(
+            title="Вероятность определения кальцинатов методом 3d УЗИ",
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            xaxis_title="Вероятность",
+            yaxis_title="Количество",
+            xaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            yaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+            font=dict(family="Roboto, sans-serif"),
+            barmode='overlay',
+        )
+        
 
         us_probabilityNeoCa_fig = go.Figure(go.Histogram(
                 x=filtered_df['us_probabilityNeoCa'],
                 opacity=0.7,
                 marker=dict(line=dict(width=1, color='DarkSlateGrey'))
             ))
+        
+        us_probabilityNeoCa_fig.update_layout(
+            title="Вероятность определения ЗНО методом УЗИ",
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            xaxis_title="Вероятность",
+            yaxis_title="Количество",
+            xaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            yaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+            font=dict(family="Roboto, sans-serif"),
+            barmode='overlay',
+        )
+
         abus_probabilityNeoCa_fig = go.Figure(go.Histogram(
                 x=filtered_df['abus_probabilityNeoCa'],
                 opacity=0.7,
                 marker=dict(line=dict(width=1, color='DarkSlateGrey'))
             ))
+        abus_probabilityNeoCa_fig.update_layout(
+            title="Вероятность определения ЗНО методом 3d УЗИ",
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            xaxis_title="Вероятность",
+            yaxis_title="Количество",
+            xaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            yaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+            font=dict(family="Roboto, sans-serif"),
+            barmode='overlay',
+        )
+
         mmg_probabilityNeoCa_fig = go.Figure(go.Histogram(
                 x=filtered_df['mmg_probabilityNeoCa'],
                 opacity=0.7,
                 marker=dict(line=dict(width=1, color='DarkSlateGrey'))
             ))
+        
+        mmg_probabilityNeoCa_fig.update_layout(
+            title="Вероятность опропределенияедления ЗНО методом ММГ",
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            xaxis_title="Вероятность",
+            yaxis_title="Количество",
+            xaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            yaxis=dict(title_font_size=st.GRAPH_FONT_SIZE, tickfont=dict(size=st.GRAPH_FONT_SIZE)),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+            font=dict(family="Roboto, sans-serif"),
+            barmode='overlay',
+        )
 
         
         
@@ -745,7 +1109,7 @@ def register_callbacks(app):
                     html.P(f"Средняя вероятность обнаружения ЗНО по УЗИ: {avg_us_probabilityNeoCa:.5f}"),
                     html.P(f"Средняя вероятность обнаружения ЗНО по 3d УЗИ: {avg_abus_probabilityNeoCa:.5f}"),
                     html.P(f"Средняя вероятность обнаружения ЗНО по ММГ: {avg_mmg_probabilityNeoCa:.5f}"),
-                ])])
+                ], className="stats-body")])
 
         return {"diagnosis_primary": diagnosis_primary_fig, 
                 "satus_reproductive": satus_reproductive_fig, 
