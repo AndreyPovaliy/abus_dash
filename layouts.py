@@ -24,7 +24,7 @@ def create_layout():
         dbc.Collapse(
             dbc.Card([
                 html.H2("Данные анамнеза", className="h2-label"),
-                dbc.Col([html.Label("Диагноз", className="filter-label"), 
+                dbc.Col([html.Label("Первичный диагноз", className="filter-label"), 
                         dcc.Dropdown(id="diagnosis_primary-filter",
                                   options=[{'label': dp, 'value': dp } for dp in df['diagnosis_primary'].unique()],
                                   value=df['diagnosis_primary'].unique(),

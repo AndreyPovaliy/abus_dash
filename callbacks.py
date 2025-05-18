@@ -69,15 +69,15 @@ def register_callbacks(app):
                 return [dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
             dbc.Row(
                     [
-                        dbc.Col(dcc.Graph(figure=data["diagnosis_primary"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["satus_reproductive"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["complaints"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["breast_surgery_before"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["skin_symptoms"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["nipple_retraction"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["nipple_release"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["genetics"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["hormonal_medications"]), width=6),
+                        dbc.Col(dcc.Graph(figure=data["diagnosis_primary"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["satus_reproductive"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["complaints"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["breast_surgery_before"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["skin_symptoms"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["nipple_retraction"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["nipple_release"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["genetics"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["hormonal_medications"]), width=12),
                     ]
                 )]
                                     
@@ -88,19 +88,19 @@ def register_callbacks(app):
                     dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
                     dbc.Row(
                     [
-                        dbc.Col(dcc.Graph(figure=data["us_nodle_contour"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_ducts"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_background"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_formation"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_nodle_size"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_echogenicity_formation"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_structure"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_formation_blood_flow"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_elastography"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_region_lymph_nodes"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_number_nodles"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_category_birads"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["us_calcinates_micro_pure"]), width=6)
+                        dbc.Col(dcc.Graph(figure=data["us_nodle_contour"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_ducts"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_background"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_formation"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_nodle_size"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_echogenicity_formation"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_structure"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_formation_blood_flow"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_elastography"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_region_lymph_nodes"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_number_nodles"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_category_birads"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["us_calcinates_micro_pure"]), width=12)
 
                     ]
                 )]
@@ -110,15 +110,15 @@ def register_callbacks(app):
                     dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
                     dbc.Row(
                     [
-                        dbc.Col(dcc.Graph(figure=data["mmg_background_breast"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_nodle"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_contour"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_size"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_calcifications"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_number_formations_visualized"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_axillary_lymph_nodes"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["type_structure_acr"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["mmg_category_birads"]), width=6)
+                        dbc.Col(dcc.Graph(figure=data["mmg_background_breast"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_contour"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_nodle_size"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_calcifications"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_number_formations_visualized"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_axillary_lymph_nodes"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["type_structure_acr"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["mmg_category_birads"]), width=12)
                     ]
                 )]
             elif active_tab == "abus_data":
@@ -126,14 +126,14 @@ def register_callbacks(app):
                     dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
                     dbc.Row(
                     [
-                        dbc.Col(dcc.Graph(figure=data["abus_nodle_size"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_nodle_contours"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_echogenicity_formation"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_structure"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_symptom_retraction"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_formation"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_category_birads"]), width=6),
-                        dbc.Col(dcc.Graph(figure=data["abus_calcinates"]), width=6)
+                        dbc.Col(dcc.Graph(figure=data["abus_nodle_size"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_nodle_contours"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_echogenicity_formation"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_structure"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_symptom_retraction"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_formation"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_category_birads"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["abus_calcinates"]), width=12)
 
                     ]
                 )]
@@ -410,12 +410,30 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        diagnosis_primary_fig.update_layout(
+            title='Первичный диагноз',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         satus_reproductive_fig = go.Figure(
                 go.Bar(
                     x=satus_reproductive_counts.index,
                     y=satus_reproductive_counts.values
                 )
             )
+        satus_reproductive_fig.update_layout(
+            title='Репродуктивный статус',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         complaints_fig = go.Figure(
                 go.Pie(
@@ -423,14 +441,32 @@ def register_callbacks(app):
                     values=complaints_counts.values,
                     textinfo='percent'
                 )
-            ) 
+            )
+        complaints_fig.update_layout(
+            title='Жалобы',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         breast_surgery_before_fig = go.Figure(
                 go.Bar(
                     x=breast_surgery_before_counts.index,
                     y=breast_surgery_before_counts.values
                 )
-            ) 
+            )
+        breast_surgery_before_fig.update_layout(
+            title='Операции в анамнезе',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         skin_symptoms_fig = go.Figure(
                 go.Pie(
@@ -439,6 +475,15 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        skin_symptoms_fig.update_layout(
+            title='Кожные симптомы',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
 
         nipple_retraction_fig = go.Figure(
                 go.Bar(
@@ -446,6 +491,15 @@ def register_callbacks(app):
                     y=nipple_retraction_counts.values
                 )
             )
+        nipple_retraction_fig.update_layout(
+            title='Симтом ретракции',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         nipple_release_fig = go.Figure(
                 go.Bar(
@@ -453,6 +507,15 @@ def register_callbacks(app):
                     y=nipple_release_counts.values
                 )
             )
+        nipple_release_fig.update_layout(
+            title='Выделения из соска',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
 
         genetics_fig = go.Figure(
@@ -463,6 +526,17 @@ def register_callbacks(app):
                 )
             )
         
+        genetics_fig.update_layout(
+            title='Наследственность',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
 
         hormonal_medications_fig = go.Figure(
                 go.Pie(
@@ -471,6 +545,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        hormonal_medications_fig.update_layout(
+            title='Прием гормональных препаратов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
 
         us_nodle_contour_fig = go.Figure(
                 go.Pie(
@@ -480,6 +566,17 @@ def register_callbacks(app):
                 )
             )
         
+        us_nodle_contour_fig.update_layout(
+            title='Контур',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+        
         us_ducts_fig = go.Figure(
                 go.Pie(
                     labels=us_ducts_counts.index,
@@ -487,6 +584,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        us_ducts_fig.update_layout(
+            title='Протоки',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_background_fig = go.Figure(
                 go.Pie(
                     labels=us_background_counts.index,
@@ -494,6 +603,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        us_background_fig.update_layout(
+            title='Фон',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_formation_fig = go.Figure(
                 go.Pie(
                     labels=us_formation_counts.index,
@@ -501,6 +622,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_formation_fig.update_layout(
+            title='Форма узлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_form_fig = go.Figure(
                 go.Pie(
                     labels=us_form_counts.index,
@@ -508,6 +640,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        us_form_fig.update_layout(
+            title='Характер узлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_nodle_size_fig = go.Figure(
                 go.Pie(
                     labels=us_nodle_size_counts.index,
@@ -515,6 +659,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_nodle_size_fig.update_layout(
+            title='Размер узлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_echogenicity_formation_fig = go.Figure(
                 go.Pie(
                     labels=us_echogenicity_formation_counts.index,
@@ -522,6 +677,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_echogenicity_formation_fig.update_layout(
+            title='Эхогенность',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_structure_fig = go.Figure(
                 go.Pie(
                     labels=us_structure_counts.index,
@@ -529,6 +695,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_structure_fig.update_layout(
+            title='Структура',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_formation_blood_flow_fig = go.Figure(
                 go.Pie(
                     labels=us_formation_blood_flow_counts.index,
@@ -536,6 +713,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_formation_blood_flow_fig.update_layout(
+            title='Кровоток в образовании',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_elastography_fig = go.Figure(
                 go.Pie(
                     labels=us_elastography_counts.index,
@@ -543,6 +731,16 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_elastography_fig.update_layout(
+            title='Эластография',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         us_region_lymph_nodes_fig = go.Figure(
                 go.Pie(
@@ -552,6 +750,17 @@ def register_callbacks(app):
                 )
             )
         
+        us_region_lymph_nodes_fig.update_layout(
+            title='Регионарные лимфоузлы',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_number_nodles_fig = go.Figure(
                 go.Pie(
                     labels=us_number_nodles_counts.index,
@@ -559,6 +768,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        us_number_nodles_fig.update_layout(
+            title='Количество узлов',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_category_birads_fig = go.Figure(
                 go.Pie(
                     labels=us_category_birads_counts.index,
@@ -566,6 +787,17 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        us_category_birads_fig.update_layout(
+            title='Категория BIRADS',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         us_calcinates_micro_pure_fig = go.Figure(
                 go.Pie(
                     labels=us_calcinates_micro_pure_counts.index,
@@ -573,6 +805,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        us_calcinates_micro_pure_fig.update_layout(
+            title='Кальцинаты',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         mmg_background_breast_fig = go.Figure(
                 go.Pie(
                     labels=mmg_background_breast_counts.index,
@@ -580,6 +824,18 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        
+        mmg_background_breast_fig.update_layout(
+            title='Фон',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         mmg_nodle_fig = go.Figure(
                 go.Pie(
                     labels=mmg_nodle_counts.index,
@@ -587,6 +843,16 @@ def register_callbacks(app):
                     textinfo='percent'
                 )
             )
+        mmg_nodle_fig.update_layout(
+            title='Характер узла',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            legend=dict(font=dict(size=st.GRAPH_FONT_SIZE)),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
         
         mmg_nodle_contour_fig = go.Figure(
                 go.Pie(
@@ -1100,15 +1366,15 @@ def register_callbacks(app):
         
 
         stats_panel = dbc.Card([
-                dbc.CardHeader("Статистика выборки", className="stats-header"),
+                dbc.CardHeader("Статистика выборки", className="h2-label"),
                 dbc.CardBody([
-                    html.P(f"Всего пациентов: {total_patients}"),
-                    html.P(f"Средний возраст: {avg_age:.0f} лет"),
-                    html.P(f"Средняя вероятность обнаружения кальцинатов по УЗИ: {avg_us_probabilityCalc:.5f}"),
-                    html.P(f"Средняя вероятность обнаружения кальцинатов по 3d УЗИ: {avg_abus_probabilityCalc:.5f}"),
-                    html.P(f"Средняя вероятность обнаружения ЗНО по УЗИ: {avg_us_probabilityNeoCa:.5f}"),
-                    html.P(f"Средняя вероятность обнаружения ЗНО по 3d УЗИ: {avg_abus_probabilityNeoCa:.5f}"),
-                    html.P(f"Средняя вероятность обнаружения ЗНО по ММГ: {avg_mmg_probabilityNeoCa:.5f}"),
+                    dcc.Markdown(f"*Всего пациентов:* **{total_patients}** \n ---"),
+                    dcc.Markdown(f"*Средний возраст:* **{avg_age:.0f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения кальцинатов по УЗИ:* **{avg_us_probabilityCalc:.5f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения кальцинатов по 3d УЗИ:* **{avg_abus_probabilityCalc:.5f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по УЗИ:* **{avg_us_probabilityNeoCa:.5f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по 3d УЗИ:* **{avg_abus_probabilityNeoCa:.5f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по ММГ:* **{avg_mmg_probabilityNeoCa:.5f}** \n ---"),
                 ], className="stats-body")])
 
         return {"diagnosis_primary": diagnosis_primary_fig, 

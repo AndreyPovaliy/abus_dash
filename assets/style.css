@@ -26,28 +26,26 @@ body{
 .h1-label{
     text-align: center;
     font-size: 40px;
+    font-family: Roboto, sans-serif;
 
 }
 
 .h2-label{
     text-align: center;
     font-size: 24px;
+    font-family: Roboto, sans-serif;
 
 }
 .explainer{
     text-align: center;
     font-size: 18px;
     background-color: rgb(215, 216, 245);
+    font-family: Roboto, sans-serif;
 
 }
-.filter-label{
-    text-align: center;
-    font-size: 16px;
-    
-    
-}
 
-.tabs{
+
+.tab-content{
     font-size: 25px;
     margin-bottom: 10px;
     color: #350daec4 ;
@@ -73,7 +71,13 @@ body{
     box-shadow: #2d2c2c9a;
 }
 
-.form-control{
-    margin-top: 20px;
-}
 
+
+.filter-label{
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 30px;
+    font-weight: bold;
+    font-family: Roboto, sans-serif;
+    
+}
