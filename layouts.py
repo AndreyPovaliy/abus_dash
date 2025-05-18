@@ -10,7 +10,7 @@ df = pd.read_csv('data/us_data.csv')
 def create_layout():
     return dbc.Container([  
 
-        html.H1("Анализ скрининга молочной железы", className="h1-label"),
+        html.H1("Анализ скрининга рака молочноый железы", className="h1-label"),
         dcc.Markdown(st.EXPLAINER, className="explainer"),
         html.H2("Показатели для выбора:", className="h2-label"),
         dbc.Col([
@@ -495,7 +495,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=6),
-               dbc.Col([
+               dbc.Col([    html.Label("Подверждение ЗНО", className="filter-label"), 
                              dcc.Dropdown(id="hist_is_tumor-filter",
                                   options=[{'label': t, 'value': t } for t in df['hist_is_tumor'].unique()],
                                   value=df['hist_is_tumor'].unique(),
