@@ -495,7 +495,7 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=6),
-               dbc.Col([    Жhtml.Label("Подверждение ЗНО", className="filter-label"), 
+               dbc.Col([    html.Label("Подверждение ЗНО", className="filter-label"), 
                              dcc.Dropdown(id="hist_is_tumor-filter",
                                   options=[{'label': t, 'value': t } for t in df['hist_is_tumor'].unique()],
                                   value=df['hist_is_tumor'].unique(),
