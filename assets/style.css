@@ -71,12 +71,17 @@ body{
     box-shadow: #2d2c2c9a;
 }
 
+.col-md-12{
+    margin-top: 5;
+    margin-left: 15;
+}
 
 
 .filter-label{
     font-size: 16px;
     margin-top: 20px;
     margin-left: 30px;
+    margin-bottom: 5px;
     font-weight: bold;
     font-family: Roboto, sans-serif;
     

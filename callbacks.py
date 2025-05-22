@@ -57,6 +57,16 @@ def register_callbacks(app):
         if n:
             return not is_open
         return is_open
+    
+    @app.callback(
+    Output("collapse-prob", "is_open"),
+    [Input("collapse-button-prob", "n_clicks")],
+    [State("collapse-prob", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
 
     @app.callback(
     Output("tab-content", "children"),
@@ -70,6 +80,7 @@ def register_callbacks(app):
             dbc.Row(
                     [
                         dbc.Col(dcc.Graph(figure=data["diagnosis_primary"]), width=12),
+                        dbc.Col(dcc.Graph(figure=data["group_separation"]), width=12),
                         dbc.Col(dcc.Graph(figure=data["satus_reproductive"]), width=12),
                         dbc.Col(dcc.Graph(figure=data["complaints"]), width=12),
                         dbc.Col(dcc.Graph(figure=data["breast_surgery_before"]), width=12),
@@ -142,17 +153,11 @@ def register_callbacks(app):
                     dbc.Row(dbc.Col(html.Div(data["stats-panel"]))),
                     dbc.Col(
                     [
-                        html.Label("Морфология", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["tumor_morphology_structure"]), width=12),
-                        html.Label("Цитология", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["cytological_conclusion"]), width=12),
-                        html.Label("Уровень малигнизации", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["degree_malignancy"]), width=12),
-                        html.Label("Мутация BRCA", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["mutation_brca"]), width=12),
-                        html.Label("Рецепторы опухолия", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["tumor_receptors"]), width=12),
-                        html.Label("Наличие ЗНО", className="filter-label"),
                         dbc.Col(dcc.Graph(figure=data["hist_is_tumor"]), width=12)
 
                     ]
@@ -163,22 +168,22 @@ def register_callbacks(app):
                     
                     dbc.Col(
                     [
-                        html.Label("Вероятность опредления кальцинатов по УЗИ", className="filter-label"),
+                        
                         dbc.Col(dcc.Graph(figure=data["us_probabilityCalc"]), width=12)
                     ]),
                      dbc.Col(
                     [
-                         html.Label("Вероятность опредления кальцинатов по 3d УЗИ", className="filter-label"),
+                        
                         dbc.Col(dcc.Graph(figure=data["abus_probabilityCalc"]), width=12)
                      ]),
                      dbc.Col(
                     [
-                        html.Label("Вероятность опредления ЗНО по  УЗИ", className="filter-label"),
+                        
                         dbc.Col(dcc.Graph(figure=data["us_probabilityNeoCa"]), width=12),
                          ]),
                      dbc.Col(
                     [
-                        html.Label("Вероятность опредления ЗНО по 3d УЗИ", className="filter-label"),
+                        
                         dbc.Col(dcc.Graph(figure=data["abus_probabilityNeoCa"]), width=12),
                          ]),
                      dbc.Col(
@@ -192,6 +197,7 @@ def register_callbacks(app):
 
     @app.callback(Output("store", "data"),
                 Input('diagnosis_primary-filter', 'value'),
+                Input('satus_reproductive-filter', 'value'),
                 Input('group-filter', 'value'),
                 Input('complaints-filter', 'value'),
                 Input('breast_surgery_before-filter', 'value'),
@@ -236,11 +242,17 @@ def register_callbacks(app):
                 Input('degree_malignancy-filter', 'value'),
                 Input('mutation_brca-filter', 'value'),
                 Input('tumor_receptors-filter', 'value'),
-                Input('hist_is_tumor-filter', 'value')
+                Input('hist_is_tumor-filter', 'value'),
+                Input('us_probabilityCalc-filter', 'value'),
+                Input('abus_probabilityCalc-filter', 'value'),
+                Input('us_probabilityNeoCa-filter', 'value'),
+                Input('abus_probabilityNeoCa-filter', 'value'),
+                Input('mmg_probabilityNeoCa-filter', 'value')
                 )
 
 
     def generate_graphs(selected_diagnosis_primary,
+                        selected_diagnosis_satus_reproductive,
                         selected_group_separation,
                         selected_complaints,
                         selected_breast_surgery_before,
@@ -285,11 +297,18 @@ def register_callbacks(app):
                         selected_degree_malignancy,
                         selected_mutation_brca,
                         selected_tumor_receptors,
-                        selected_hist_is_tumor):
+                        selected_hist_is_tumor,
+                        selected_us_probabilityCalc,
+                        selected_abus_probabilityCalc,
+                        selected_us_probabilityNeoCa,
+                        selected_abus_probabilityNeoCa,
+                        selected_mmg_probabilityNeoCa
+                        ):
 
         
         filtered_df = df[
                 (df['diagnosis_primary'].isin(selected_diagnosis_primary)) & 
+                (df['satus_reproductive'].isin(selected_diagnosis_satus_reproductive)) & 
                 (df['group_separation'].isin(selected_group_separation)) &
                 (df['complaints'].isin(selected_complaints)) &
                 (df['breast_surgery_before'].isin(selected_breast_surgery_before)) &
@@ -334,8 +353,12 @@ def register_callbacks(app):
                 (df['degree_malignancy'].isin(selected_degree_malignancy)) &
                 (df['mutation_brca'].isin(selected_mutation_brca)) &
                 (df['tumor_receptors'].isin(selected_tumor_receptors)) &
-                (df['hist_is_tumor'].isin(selected_hist_is_tumor))
-
+                (df['hist_is_tumor'].isin(selected_hist_is_tumor)) &
+                (df['us_probabilityCalc'] >= selected_us_probabilityCalc) &
+                (df['abus_probabilityCalc'] >= selected_abus_probabilityCalc)&
+                (df['us_probabilityNeoCa'] >= selected_us_probabilityNeoCa)&
+                (df['abus_probabilityNeoCa'] >= selected_abus_probabilityNeoCa)&
+                (df['mmg_probabilityNeoCa'] >= selected_mmg_probabilityNeoCa)
                 ]
             
 
@@ -349,6 +372,7 @@ def register_callbacks(app):
 
 
         diagnosis_primary_counts =filtered_df['diagnosis_primary'].value_counts()
+        group_separation_counts =filtered_df['group_separation'].value_counts()
         satus_reproductive_counts =filtered_df['satus_reproductive'].value_counts()
         complaints_counts =filtered_df['complaints'].value_counts()
         breast_surgery_before_counts =filtered_df['breast_surgery_before'].value_counts()
@@ -419,6 +443,25 @@ def register_callbacks(app):
             plot_bgcolor=st.PLOT_BACKGROUND,
             paper_bgcolor=st.PAPER_BACKGROUND,
         )
+
+        group_separation_fig = go.Figure(
+                go.Pie(
+                    labels=group_separation_counts.index,
+                    values=group_separation_counts.values,
+                    textinfo='percent'
+                )
+            )
+        
+        group_separation_fig.update_layout(
+            title='Группа',
+            title_font_size=st.GRAPH_TITLE_FONT_SIZE,
+            title_x=st.GRAPH_TITLE_ALIGN,
+            title_font_weight=st.GRAPH_TITLE_WEIGHT,
+            font=dict(family="Roboto, sans-serif"),
+            plot_bgcolor=st.PLOT_BACKGROUND,
+            paper_bgcolor=st.PAPER_BACKGROUND,
+        )
+
         satus_reproductive_fig = go.Figure(
                 go.Bar(
                     x=satus_reproductive_counts.index,
@@ -1374,10 +1417,12 @@ def register_callbacks(app):
                     dcc.Markdown(f"*Средняя вероятность обнаружения кальцинатов по 3d УЗИ:* **{avg_abus_probabilityCalc:.5f}** \n ---"),
                     dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по УЗИ:* **{avg_us_probabilityNeoCa:.5f}** \n ---"),
                     dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по 3d УЗИ:* **{avg_abus_probabilityNeoCa:.5f}** \n ---"),
-                    dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по ММГ:* **{avg_mmg_probabilityNeoCa:.5f}** \n ---"),
+                    dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по ММГ:* **{avg_mmg_probabilityNeoCa:.5f}** \n ---")
                 ], className="stats-body")])
+        
 
         return {"diagnosis_primary": diagnosis_primary_fig, 
+                "group_separation": group_separation_fig,
                 "satus_reproductive": satus_reproductive_fig, 
                 "complaints":complaints_fig,
                 "breast_surgery_before":breast_surgery_before_fig,

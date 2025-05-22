@@ -32,6 +32,14 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=12),
+                dbc.Col([html.Label("Репродуктивный статус", className="filter-label"), 
+                        dcc.Dropdown(id="satus_reproductive-filter",
+                                  options=[{'label': sr, 'value': sr } for sr in df['satus_reproductive'].unique()],
+                                  value=df['satus_reproductive'].unique(),
+                                  multi=True, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=12),
                dbc.Row([dbc.Col([html.Label("Группа", className="filter-label"), 
                         dcc.Dropdown(id="group-filter",
                                   options=[{'label': g, 'value': g } for g in df['group_separation'].unique()],
@@ -48,7 +56,7 @@ def create_layout():
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
                                   )], md=4),
-                                  dbc.Col([html.Label("Симптомы на коже", className="filter-label"), 
+                dbc.Col([html.Label("Симптомы на коже", className="filter-label"), 
                         dcc.Dropdown(id="skin_symptoms-filter",
                                   options=[{'label': sks, 'value': sks } for sks in df['skin_symptoms'].unique()],
                                   value=df['skin_symptoms'].unique(),
@@ -504,12 +512,99 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=12)]),
+                
 
                 
                                   ]
                 ), id="collapse-hist",
             is_open=False,
         ),
+        dbc.Button(
+            "Вероятность",
+            id="collapse-button-prob",
+            className="mb-3",
+            color="secodary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card([
+               html.H2("Вероятность", className="h2-label"),
+               dbc.Row([
+                   html.Label("Обнаружения кальцинатов по УЗИ", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="us_probabilityCalc-filter",
+                             min = 0,
+                             max = 1.00,
+                             step=0.01,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=12)]),
+                dbc.Row([
+                   html.Label("Обнаружения кальцинатов по 3d УЗИ", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="abus_probabilityCalc-filter",
+                             min = 0,
+                             max = 1.00,
+                             step=0.01,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=12)]),
+                dbc.Row([
+                   html.Label("Обнаружения ЗНО по УЗИ", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="us_probabilityNeoCa-filter",
+                             min = 0,
+                             max = 1.00,
+                             step=0.01,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=12)]),
+                dbc.Row([
+                   html.Label("Обнаружения ЗНО по 3d УЗИ", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="abus_probabilityNeoCa-filter",
+                             min = 0,
+                             max = 1.00,
+                             step=0.01,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=12)]),
+                dbc.Row([
+                   html.Label("Обнаружения ЗНО по ММГ", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="mmg_probabilityNeoCa-filter",
+                             min = 0,
+                             max = 1.00,
+                             step=0.01,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=12)]),
+                
+
+                
+                                  ]
+                ), id="collapse-prob",
+            is_open=False,
+        ),
+    
+        
+
+
 
 
         ]),
