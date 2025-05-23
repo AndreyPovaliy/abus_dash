@@ -583,7 +583,7 @@ def create_layout():
                                   className="filter-label",
                                   style=st.DROPDOWN_STYLE,
                                   )   
-                       ], md=12)]),
+                       ], md=6)]),
                 dbc.Row([
                    html.Label("Обнаружения кальцинатов по 3d УЗИ", className="filter-label"), 
                    dbc.Col([   
@@ -596,7 +596,7 @@ def create_layout():
                                   className="filter-label",
                                   style=st.DROPDOWN_STYLE,
                                   )   
-                       ], md=12)]),
+                       ], md=6)]),
                 dbc.Row([
                    html.Label("Обнаружения ЗНО по УЗИ", className="filter-label"), 
                    dbc.Col([   
@@ -609,7 +609,7 @@ def create_layout():
                                   className="filter-label",
                                   style=st.DROPDOWN_STYLE,
                                   )   
-                       ], md=12)]),
+                       ], md=6)]),
                 dbc.Row([
                    html.Label("Обнаружения ЗНО по 3d УЗИ", className="filter-label"), 
                    dbc.Col([   
@@ -622,7 +622,7 @@ def create_layout():
                                   className="filter-label",
                                   style=st.DROPDOWN_STYLE,
                                   )   
-                       ], md=12)]),
+                       ], md=6)]),
                 dbc.Row([
                    html.Label("Обнаружения ЗНО по ММГ", className="filter-label"), 
                    dbc.Col([   
@@ -635,7 +635,8 @@ def create_layout():
                                   className="filter-label",
                                   style=st.DROPDOWN_STYLE,
                                   )   
-                       ], md=12)]),
+                       ], md=6)
+                       ]),
                 
 
                 
@@ -653,10 +654,30 @@ def create_layout():
         dbc.Collapse(
                 dbc.Card([
                     html.H2("Данные анамнеза", className="h2-label"),
+                    html.Label("Возраст", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="age_patient_pr_jun-filter",
+                             min = 18,
+                             max = 39,
+                             step=1,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=6),
                     dbc.Col([html.Label("Первичный диагноз", className="filter-label"), 
                         dcc.Dropdown(id="diagnosis_primary_pr_jun-filter",
                                   options=[{'label': dp, 'value': dp } for dp in df_us_jn['diagnosis_primary'].unique()],
                                   value=df_us_jn['diagnosis_primary'].unique()[0],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=12),
+                    dbc.Col([html.Label("Сторона", className="filter-label"), 
+                        dcc.Dropdown(id="side_pr_jun-filter",
+                                  options=[{'label': s, 'value': s } for s in df_us_jn['side'].unique()],
+                                  value=df_us_jn['side'].unique()[0],
                                   multi=False, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
@@ -715,6 +736,14 @@ def create_layout():
                                   )], md=4)
                         
                     ]),
+                    dbc.Col([html.Label("Квадрант", className="filter-label"), 
+                        dcc.Dropdown(id="quadrant_pr_jun-filter",
+                                  options=[{'label': hm, 'value': hm } for hm in df_us_jn['quadrant'].unique()],
+                                  value=df_us_jn['quadrant'].unique()[0],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=12),
                     dbc.Row([dbc.Col([html.Label("Наследственность", className="filter-label"), 
                         dcc.Dropdown(id="genetics_pr_jun-filter",
                                   options=[{'label': g, 'value': g } for g in df_us_jn['genetics'].unique()],
@@ -744,6 +773,18 @@ def create_layout():
         dbc.Collapse(
                 [dbc.Card([
                     html.H2("Данные анамнеза", className="h2-label"),
+                    html.Label("Возраст", className="filter-label"), 
+                   dbc.Col([   
+                   dcc.Input(id="age_patient_pr_snr-filter",
+                             min = 40,
+                             max = 90,
+                             step=1,
+                             value=0,
+                                  type = "number",
+                                  className="filter-label",
+                                  style=st.DROPDOWN_STYLE,
+                                  )   
+                       ], md=6),
                     dbc.Col([html.Label("Первичный диагноз", className="filter-label"), 
                         dcc.Dropdown(id="diagnosis_primary_pr_snr-filter",
                                   options=[{'label': dp, 'value': dp } for dp in df_us_snr['diagnosis_primary'].unique()],
@@ -751,7 +792,15 @@ def create_layout():
                                   multi=False, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,
-                                  )], md=12),
+                                  )], md=6),
+                    dbc.Col([html.Label("Сторона", className="filter-label"), 
+                        dcc.Dropdown(id="side_pr_snr-filter",
+                                  options=[{'label': dp, 'value': dp } for dp in df_us_snr['side'].unique()],
+                                  value=df_us_snr['side'].unique()[1],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=6),
                     dbc.Col([html.Label("Репродуктивный статус", className="filter-label"), 
                         dcc.Dropdown(id="satus_reproductive_pr_snr-filter",
                                   options=[{'label': sr, 'value': sr } for sr in df_us_snr['satus_reproductive'].unique()],
@@ -806,6 +855,14 @@ def create_layout():
                                   )], md=4)
                         
                     ]),
+                    dbc.Col([html.Label("Квадрант", className="filter-label"), 
+                        dcc.Dropdown(id="quadrant_pr_snr-filter",
+                                  options=[{'label': nrl, 'value': nrl } for nrl in df_us_snr['quadrant'].unique()],
+                                  value=df_us_snr['quadrant'].unique()[0],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )], md=6),
                     dbc.Row([dbc.Col([html.Label("Наследственность", className="filter-label"), 
                         dcc.Dropdown(id="genetics_pr_snr-filter",
                                   options=[{'label': g, 'value': g } for g in df_us_snr['genetics'].unique()],
@@ -826,6 +883,33 @@ def create_layout():
                 ]),
                 dbc.Card([
                          html.H2("Данные ММГ", className="h2-label"),
+                         dbc.Col([html.Label("ММГ кожа", className="filter-label"), 
+                             dcc.Dropdown(id="mmg_conclusion_skin_snr-filter",
+                                  options=[{'label': mmg_sk, 'value': mmg_sk } for mmg_sk in df_us_snr['mmg_conclusion_skin'].unique()],
+                                  value=df_us_snr['mmg_conclusion_skin'].unique()[3],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=12),
+                       dbc.Col([html.Label("ММГ ареола", className="filter-label"), 
+                             dcc.Dropdown(id="mmg_areola_pr_snr-filter",
+                                  options=[{'label': mmg_ar, 'value': mmg_ar } for mmg_ar in df_us_snr['mmg_areola'].unique()],
+                                  value=df_us_snr['mmg_areola'].unique()[3],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=12),
+                       dbc.Col([html.Label("ММГ сосок", className="filter-label"), 
+                             dcc.Dropdown(id="mmg_nipple_pr_snr-filter",
+                                  options=[{'label': mmg_n, 'value': mmg_n } for mmg_n in df_us_snr['mmg_nipple'].unique()],
+                                  value=df_us_snr['mmg_nipple'].unique()[3],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=12),
           dbc.Col([html.Label("ММГ-фон", className="filter-label"), 
                              dcc.Dropdown(id="mmg_background_breast_pr_snr-filter",
                                   options=[{'label': mmg_b, 'value': mmg_b } for mmg_b in df_us_snr['mmg_background_breast'].unique()],
@@ -889,10 +973,28 @@ def create_layout():
                                   style=st.DROPDOWN_STYLE,
                                   )  
                        ], md=6)]),
+                       dbc.Col([html.Label("ММГ заключение", className="filter-label"), 
+                             dcc.Dropdown(id="mmg_conclusion_pr_snr-filter",
+                                  options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df_us_snr['mmg_conclusion'].unique()],
+                                  value=df_us_snr['mmg_conclusion'].unique()[0],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=6)]),
           dbc.Row([dbc.Col([html.Label("Тип структуры ACR", className="filter-label"), 
                              dcc.Dropdown(id="type_structure_acr_pr_snr-filter",
                                   options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df_us_snr['type_structure_acr'].unique()],
                                   value=df_us_snr['type_structure_acr'].unique()[0],
+                                  multi=False, 
+                                  className="filter-dropdown",
+                                  style=st.DROPDOWN_STYLE,
+                                  )  
+                       ], md=6),
+                       dbc.Row([dbc.Col([html.Label("Количество узлов", className="filter-label"), 
+                             dcc.Dropdown(id="mmg_number_nodles_pr_snr-filter",
+                                  options=[{'label': mmg_cal, 'value': mmg_cal } for mmg_cal in df_us_snr['mmg_number_nodles'].unique()],
+                                  value=df_us_snr['mmg_number_nodles'].unique()[0],
                                   multi=False, 
                                   className="filter-dropdown",
                                   style=st.DROPDOWN_STYLE,

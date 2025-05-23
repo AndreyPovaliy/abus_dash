@@ -4,8 +4,26 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 import settings as st
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.metrics import accuracy_score
 
 df = pd.read_csv('data/us_data.csv')
+df_us = df[['age_patient',
+            'diagnosis_primary',
+            'side',
+            'satus_reproductive',
+            'complaints',
+            'breast_surgery_before', 
+            'skin_symptoms',
+            'nipple_retraction', 
+            'nipple_release',
+            'quadrant', 
+            'genetics',
+            'hormonal_medications',
+            'hist_is_tumor']]
+df_us_jn = df_us[df_us['age_patient'] < 40]
+
 
 def register_callbacks(app):
     @app.callback(
@@ -213,7 +231,7 @@ def register_callbacks(app):
                     ]
                 )]
             elif active_tab == "pred_data":
-                return dbc.Row(dbc.Col(html.Div(data["stats-panel"])))
+                return dbc.Row(dbc.Col(html.Div(data["ml-panel"])))
         return "No tab selected"
 
 
@@ -269,7 +287,45 @@ def register_callbacks(app):
                 Input('abus_probabilityCalc-filter', 'value'),
                 Input('us_probabilityNeoCa-filter', 'value'),
                 Input('abus_probabilityNeoCa-filter', 'value'),
-                Input('mmg_probabilityNeoCa-filter', 'value')
+                Input('mmg_probabilityNeoCa-filter', 'value'),
+                Input("age_patient_pr_jun-filter", 'value'),
+                Input("diagnosis_primary_pr_jun-filter", 'value'),
+                Input("side_pr_jun-filter", 'value'),
+                Input("satus_reproductive_pr_jun-filter", 'value'),
+                Input("complaints_pr_jun-filter", 'value'),
+                Input("breast_surgery_before_pr_jun-filter", 'value'),
+                Input("skin_symptoms_pr_jun-filter",  'value'),
+                Input("nipple_retraction_pr_jun-filter",   'value'),
+                Input("nipple_release_pr_jun-filter",  'value'),
+                Input("quadrant_pr_jun-filter",  'value'),
+                Input("hormonal_medications_pr_jun-filter", 'value'),
+                Input("genetics_pr_jun-filter", 'value'),
+                Input("age_patient_pr_snr-filter", 'value'),
+                Input("diagnosis_primary_pr_snr-filter", 'value'),
+                Input("side_pr_snr-filter", 'value'),
+                Input("satus_reproductive_pr_snr-filter", 'value'),
+                Input("complaints_pr_snr-filter", 'value'),
+                Input("breast_surgery_before_pr_snr-filter",  'value'),
+                Input("skin_symptoms_pr_snr-filter", 'value'),
+                Input("nipple_retraction_pr_snr-filter",  'value'),
+                Input("nipple_release_pr_snr-filter", 'value'),
+                Input("quadrant_pr_snr-filter",  'value'),
+                Input("genetics_pr_snr-filter", 'value'),
+                Input("hormonal_medications_pr_snr-filter", 'value'),
+                Input("mmg_conclusion_skin_snr-filter", 'value'),
+                Input("mmg_areola_pr_snr-filter", 'value'),
+                Input("mmg_nipple_pr_snr-filter", 'value'),
+                Input("mmg_background_breast_pr_snr-filter", 'value'),
+                Input("mmg_nodle_pr_snr-filter", 'value'),
+                Input("mmg_nodle_contour_pr_snr-filter", 'value'),
+                Input("mmg_nodle_size_pr_snr-filter", 'value'),
+                Input("mmg_calcifications_pr_snr-filter", 'value'),
+                Input("mmg_number_formations_visualized_pr_snr-filter", 'value'),
+                Input("mmg_axillary_lymph_nodes_pr_snr-filter", 'value'),
+                Input("mmg_conclusion_pr_snr-filter", 'value'),
+                Input("type_structure_acr_pr_snr-filter", 'value'),
+                Input("mmg_number_nodles_pr_snr-filter", 'value'),
+                Input("mmg_category_birads_pr_snr-filter" 'value')
                 )
 
 
@@ -324,7 +380,45 @@ def register_callbacks(app):
                         selected_abus_probabilityCalc,
                         selected_us_probabilityNeoCa,
                         selected_abus_probabilityNeoCa,
-                        selected_mmg_probabilityNeoCa
+                        selected_mmg_probabilityNeoCa,
+                        selected_age_patient_pr_jun,
+                        selected_diagnosis_primary_pr_jun,
+                        selected_side_pr_jun,
+                        selected_satus_reproductive_pr_jun,
+                        selected_complaints_pr_jun,
+                        selected_breast_surgery_before_pr_jun,
+                        selected_skin_symptoms_pr_jun,
+                        selected_nipple_retraction_pr_jun,
+                        selected_nipple_release_pr_jun,
+                        selected_quadrant_pr_jun,
+                        selected_hormonal_medications_pr_jun,
+                        selected_genetics_pr_jun,
+                        selected_age_patient_pr_snr,
+                        selected_diagnosis_primary_pr_snr,
+                        selected_side_pr_snr,
+                        selected_satus_reproductive_pr_snr,
+                        selected_complaints_pr_snr,
+                        selected_breast_surgery_before_pr_snr, 
+                        selected_skin_symptoms_pr_snr,
+                        selected_nipple_retraction_pr_snr, 
+                        selected_nipple_release_pr_snr,
+                        selected_quadrant_pr_snr, 
+                        selected_genetics_pr_snr,
+                        selected_hormonal_medications_pr_snr,
+                        selected_mmg_conclusion_skin_snr,
+                        selected_mmg_areola_pr_snr,
+                        selected_mmg_nipple_pr_snr,
+                        selected_mmg_background_breast_pr_snr,
+                        selected_mmg_nodle_pr_snr,
+                        selected_mmg_nodle_contour_pr_snr,
+                        selected_mmg_nodle_size_pr_snr,
+                        selected_mmg_calcifications_pr_snr,
+                        selected_mmg_number_formations_visualized_pr_snr,
+                        selected_mmg_axillary_lymph_nodes_pr_snr,
+                        selected_mmg_conclusion_pr_snr,
+                        selected_type_structure_acr_pr_snr,
+                        selected_mmg_number_nodles_pr_snr,
+                        selected_mmg_category_birads_pr_snr
                         ):
 
         
@@ -1442,6 +1536,161 @@ def register_callbacks(app):
                     dcc.Markdown(f"*Средняя вероятность обнаружения ЗНО по ММГ:* **{avg_mmg_probabilityNeoCa:.5f}** \n ---")
                 ], className="stats-body")])
         
+        df_us_jn_pred = pd.DataFrame({
+            'age_patient':[selected_age_patient_pr_jun],
+            'diagnosis_primary':[selected_diagnosis_primary_pr_jun],
+            'side':[selected_side_pr_jun],
+            'satus_reproductive':[selected_satus_reproductive_pr_jun],
+            'complaints':[selected_complaints_pr_jun],
+            'breast_surgery_before':[selected_breast_surgery_before_pr_jun],
+            'skin_symptoms':[selected_skin_symptoms_pr_jun],
+            'nipple_retraction':[selected_nipple_retraction_pr_jun], 
+            'nipple_release':[selected_nipple_release_pr_jun],
+            'quadrant':[selected_quadrant_pr_jun],
+            'genetics':[selected_genetics_pr_jun],
+            'hormonal_medications':[selected_hormonal_medications_pr_jun]})
+        
+        df_us_jn_pred["diagnosis_primary"] = df_us_jn_pred['diagnosis_primary'].apply(lambda x: 1 if x == df_us_jn["diagnosis_primary"].unique()[0]
+                                    else 2 if x == df_us_jn["diagnosis_primary"].unique()[1]
+                                    else 3 if x == df_us_jn["diagnosis_primary"].unique()[2]
+                                    else 4 if x == df_us_jn["diagnosis_primary"].unique()[3]
+                                    else 5 if x == df_us_jn["diagnosis_primary"].unique()[4]
+                                    else 6 if x == df_us_jn["diagnosis_primary"].unique()[5]
+                                    else 7 if x == df_us_jn["diagnosis_primary"].unique()[6]
+                                    else 8 if x == df_us_jn["diagnosis_primary"].unique()[7]
+                                    else 9 if x == df_us_jn["diagnosis_primary"].unique()[8]                                    
+                                    else 10)
+        df_us_jn_pred["satus_reproductive"] = df_us_jn_pred["satus_reproductive"].apply(lambda x: 1 if x == df_us_jn["diagnosis_primary"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["side"] = df_us_jn_pred['side'].apply(lambda x: 1 if x == df_us_jn["side"].unique()[0]
+                                            else 2 if x == df_us_jn["side"].unique()[1]
+                                            else 3 if x == df_us_jn["side"].unique()[2]
+                                            else 4)
+        df_us_jn_pred["complaints"] = df_us_jn_pred['complaints'].apply(lambda x: 1 if x == df_us_jn["complaints"].unique()[0]
+                                            else 2 if x == df_us_jn["complaints"].unique()[1]
+                                            else 3 if x == df_us_jn["complaints"].unique()[2]
+                                            else 4)
+        df_us_jn_pred["breast_surgery_before"] = df_us_jn_pred["breast_surgery_before"].apply(lambda x: 1 if x == df_us_jn["breast_surgery_before"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["skin_symptoms"] = df_us_jn_pred["skin_symptoms"].apply(lambda x: 1 if x == df_us_jn["skin_symptoms"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["nipple_retraction"] = df_us_jn_pred["nipple_retraction"].apply(lambda x: 1 if x == df_us_jn["nipple_retraction"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["nipple_release"] = df_us_jn_pred["nipple_release"].apply(lambda x: 1 if x == df_us_jn["nipple_release"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["quadrant"] = df_us_jn_pred['quadrant'].apply(lambda x: 1 if x == df_us_jn["quadrant"].unique()[0]
+                                            else 2 if x == df_us_jn["quadrant"].unique()[1]
+                                            else 3 if x == df_us_jn["quadrant"].unique()[2]
+                                            else 4 if x == df_us_jn["quadrant"].unique()[3]
+                                            else 5 if x == df_us_jn["quadrant"].unique()[4]
+                                            else 6 if x == df_us_jn["quadrant"].unique()[5]
+                                            else 7 if x == df_us_jn["quadrant"].unique()[6]
+                                            else 8 if x == df_us_jn["quadrant"].unique()[7]
+                                            else 9 if x == df_us_jn["quadrant"].unique()[8]                                    
+                                            else 10)
+        df_us_jn_pred["genetics"] = df_us_jn_pred["genetics"].apply(lambda x: 1 if x == df_us_jn["genetics"].unique()[0]
+                                            else 2)
+        df_us_jn_pred["hormonal_medications"] = df_us_jn_pred["hormonal_medications"].apply(lambda x: 1 if x == df_us_jn["hormonal_medications"].unique()[0]
+                                            else 2)
+        
+        df_us_jn_num = df_us_jn
+        df_us_jn_num["diagnosis_primary"] = df_us_jn_num['diagnosis_primary'].apply(lambda x: 1 if x == df_us_jn_num["diagnosis_primary"].unique()[0]
+                                    else 2 if x == df_us_jn_num["diagnosis_primary"].unique()[1]
+                                    else 3 if x == df_us_jn_num["diagnosis_primary"].unique()[2]
+                                    else 4 if x == df_us_jn_num["diagnosis_primary"].unique()[3]
+                                    else 5 if x == df_us_jn_num["diagnosis_primary"].unique()[4]
+                                    else 6 if x == df_us_jn_num["diagnosis_primary"].unique()[5]
+                                    else 7 if x == df_us_jn_num["diagnosis_primary"].unique()[6]
+                                    else 8 if x == df_us_jn_num["diagnosis_primary"].unique()[7]
+                                    else 9 if x == df_us_jn_num["diagnosis_primary"].unique()[8]                                    
+                                    else 10)
+        df_us_jn_num["satus_reproductive"] = df_us_jn_num["satus_reproductive"].apply(lambda x: 1 if x == df_us_jn_num["diagnosis_primary"].unique()[0]
+                                    else 2)
+        df_us_jn_num["side"] = df_us_jn_num['side'].apply(lambda x: 1 if x == df_us_jn_num["side"].unique()[0]
+                                    else 2 if x == df_us_jn_num["side"].unique()[1]
+                                    else 3 if x == df_us_jn_num["side"].unique()[2]
+                                    else 4)
+        df_us_jn_num["complaints"] = df_us_jn_num['complaints'].apply(lambda x: 1 if x == df_us_jn_num["complaints"].unique()[0]
+                                    else 2 if x == df_us_jn_num["complaints"].unique()[1]
+                                    else 3 if x == df_us_jn_num["complaints"].unique()[2]
+                                    else 4)
+        df_us_jn_num["breast_surgery_before"] = df_us_jn_num["breast_surgery_before"].apply(lambda x: 1 if x == df_us_jn_num["breast_surgery_before"].unique()[0]
+                                    else 2)
+        df_us_jn_num["skin_symptoms"] = df_us_jn_num["skin_symptoms"].apply(lambda x: 1 if x == df_us_jn_num["skin_symptoms"].unique()[0]
+                                    else 2)
+        df_us_jn_num["nipple_retraction"] = df_us_jn_num["nipple_retraction"].apply(lambda x: 1 if x == df_us_jn_num["nipple_retraction"].unique()[0]
+                                    else 2)
+        df_us_jn_num["nipple_release"] = df_us_jn_num["nipple_release"].apply(lambda x: 1 if x == df_us_jn_num["nipple_release"].unique()[0]
+                                    else 2)
+        df_us_jn_num["quadrant"] = df_us_jn_num['quadrant'].apply(lambda x: 1 if x == df_us_jn_num["quadrant"].unique()[0]
+                                    else 2 if x == df_us_jn_num["quadrant"].unique()[1]
+                                    else 3 if x == df_us_jn_num["quadrant"].unique()[2]
+                                    else 4 if x == df_us_jn_num["quadrant"].unique()[3]
+                                    else 5 if x == df_us_jn_num["quadrant"].unique()[4]
+                                    else 6 if x == df_us_jn_num["quadrant"].unique()[5]
+                                    else 7 if x == df_us_jn_num["quadrant"].unique()[6]
+                                    else 8 if x == df_us_jn_num["quadrant"].unique()[7]
+                                    else 9 if x == df_us_jn_num["quadrant"].unique()[8]                                    
+                                    else 10)
+        df_us_jn_num["genetics"] = df_us_jn_num["genetics"].apply(lambda x: 1 if x == df_us_jn_num["genetics"].unique()[0]
+                                    else 2)
+        df_us_jn_num["hormonal_medications"] = df_us_jn_num["hormonal_medications"].apply(lambda x: 1 if x == df_us_jn_num["hormonal_medications"].unique()[0]
+                                    else 2)
+        df_us_jn_num["hist_is_tumor"] = df_us_jn_num["hist_is_tumor"].apply(lambda x: 1 if x == df_us_jn_num["hist_is_tumor"].unique()[0]
+                                    else 2)
+        
+        
+        X = df_us_jn_num.drop('hist_is_tumor', axis=1)
+        y = df_us_jn_num['hist_is_tumor']
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)
+
+        rf = RandomForestClassifier(
+            n_estimators=500, 
+            max_depth=5, 
+            max_features=None, 
+            bootstrap=True, 
+            min_samples_split=5,
+            min_samples_leaf=2, 
+            random_state=42,
+            class_weight=None,
+            verbose=1,
+            n_jobs=-1
+)
+
+        rf.fit(X_train, y_train)
+
+
+        
+        df_us_jn_pred["hist_is_tumor"] = rf.predict(df_us_jn_pred)
+
+        
+       
+
+        
+
+        df_us_jn_pred["way"] = df_us_jn_pred["hist_is_tumor"].apply(lambda x: '3d УЗИ' if x == 1
+                                            else 'традиционное УЗИ')
+        way_to = df_us_jn_pred["way"][0]
+
+        
+        ml_panel = dbc.Card([
+                dbc.CardHeader("Маршрутизация пациентки до 40 лет", className="h2-label"),
+                dbc.CardBody([
+                    dcc.Markdown(f"*Направление:* **{way_to}** \n ---"),
+                    dcc.Markdown(f"*Возраст:* **{selected_age_patient_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Диагноз:* **{selected_diagnosis_primary_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Сторона:* **{selected_side_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Репродуктивный статус:* **{selected_satus_reproductive_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Жалобы:* **{selected_complaints_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Операции до:* **{selected_breast_surgery_before_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Симптомы на коже:* **{selected_skin_symptoms_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Симптом ретракции:* **{selected_nipple_retraction_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Симптом выделения:* **{selected_nipple_release_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Кавадрант:* **{selected_quadrant_pr_jun}** \n ---"),
+                    dcc.Markdown(f"*Наследственность:* **{selected_genetics_pr_jun}** \n ---")
+                    
+                ], className="stats-body")])
 
         return {"diagnosis_primary": diagnosis_primary_fig, 
                 "group_separation": group_separation_fig,
@@ -1496,6 +1745,9 @@ def register_callbacks(app):
                 "abus_probabilityNeoCa":abus_probabilityNeoCa_fig,
                 "mmg_probabilityNeoCa":mmg_probabilityNeoCa_fig,
                 "stats-panel":stats_panel,
+                "ml-panel":ml_panel
                 
                 
                 }
+    
+
