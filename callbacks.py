@@ -57,11 +57,31 @@ def register_callbacks(app):
         if n:
             return not is_open
         return is_open
-    
+
     @app.callback(
     Output("collapse-prob", "is_open"),
     [Input("collapse-button-prob", "n_clicks")],
     [State("collapse-prob", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-pred", "is_open"),
+    [Input("collapse-button-pred", "n_clicks")],
+    [State("collapse-pred", "is_open")],
+)
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+    Output("collapse-pred1", "is_open"),
+    [Input("collapse-button-pred1", "n_clicks")],
+    [State("collapse-pred1", "is_open")],
 )
     def toggle_collapse(n, is_open):
         if n:
@@ -192,6 +212,8 @@ def register_callbacks(app):
 
                     ]
                 )]
+            elif active_tab == "pred_data":
+                return dbc.Row(dbc.Col(html.Div(data["stats-panel"])))
         return "No tab selected"
 
 
