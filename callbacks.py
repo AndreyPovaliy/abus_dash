@@ -23,6 +23,35 @@ df_us = df[['age_patient',
             'hormonal_medications',
             'hist_is_tumor']]
 df_us_jn = df_us[df_us['age_patient'] < 40]
+df_us1 = df[['age_patient',
+            'diagnosis_primary',
+            'side',
+            'satus_reproductive',
+            'complaints',
+            'breast_surgery_before', 
+            'skin_symptoms',
+            'nipple_retraction', 
+            'nipple_release',
+            'quadrant', 
+            'genetics',
+            'hormonal_medications',
+            'mmg_conclusion_skin',
+            'mmg_areola',
+            'mmg_nipple',
+            'mmg_background_breast',
+            'mmg_nodle',
+            'mmg_nodle_contour',
+            'mmg_nodle_size',
+            'mmg_calcifications',
+            'mmg_number_formations_visualized',
+            'mmg_axillary_lymph_nodes',
+            'mmg_conclusion',
+            'type_structure_acr',
+            'mmg_number_nodles',
+            'mmg_category_birads',
+            'hist_is_tumor']]
+df_us_snr = df_us1[df_us1['age_patient'] >= 40]
+
 
 
 def register_callbacks(app):
@@ -231,7 +260,9 @@ def register_callbacks(app):
                     ]
                 )]
             elif active_tab == "pred_data":
-                return dbc.Row(dbc.Col(html.Div(data["ml-panel"])))
+                return [dbc.Row(dbc.Col(html.Div(data["ml-panel_jun"]))),
+                        dbc.Row(dbc.Col(html.Div(data["ml-panel_snr"]))),
+                ]
         return "No tab selected"
 
 
@@ -325,7 +356,7 @@ def register_callbacks(app):
                 Input("mmg_conclusion_pr_snr-filter", 'value'),
                 Input("type_structure_acr_pr_snr-filter", 'value'),
                 Input("mmg_number_nodles_pr_snr-filter", 'value'),
-                Input("mmg_category_birads_pr_snr-filter" 'value')
+                Input("mmg_category_birads_pr_snr-filter", 'value')
                 )
 
 
@@ -1674,7 +1705,7 @@ def register_callbacks(app):
         way_to = df_us_jn_pred["way"][0]
 
         
-        ml_panel = dbc.Card([
+        ml_panel_jun = dbc.Card([
                 dbc.CardHeader("Маршрутизация пациентки до 40 лет", className="h2-label"),
                 dbc.CardBody([
                     dcc.Markdown(f"*Направление:* **{way_to}** \n ---"),
@@ -1689,6 +1720,341 @@ def register_callbacks(app):
                     dcc.Markdown(f"*Симптом выделения:* **{selected_nipple_release_pr_jun}** \n ---"),
                     dcc.Markdown(f"*Кавадрант:* **{selected_quadrant_pr_jun}** \n ---"),
                     dcc.Markdown(f"*Наследственность:* **{selected_genetics_pr_jun}** \n ---")
+                    
+                ], className="stats-body")])
+        df_us_snr_pred = pd.DataFrame({
+            'age_patient':[selected_age_patient_pr_snr],
+            'diagnosis_primary':[selected_diagnosis_primary_pr_snr],
+            'side':[selected_side_pr_snr],
+            'satus_reproductive':[selected_satus_reproductive_pr_snr],
+            'complaints':[selected_complaints_pr_snr],
+            'breast_surgery_before':[selected_breast_surgery_before_pr_snr],
+            'skin_symptoms':[selected_skin_symptoms_pr_snr],
+            'nipple_retraction':[selected_nipple_retraction_pr_snr], 
+            'nipple_release':[selected_nipple_release_pr_snr],
+            'quadrant':[selected_quadrant_pr_snr],
+            'genetics':[selected_genetics_pr_snr],
+            'hormonal_medications':[selected_hormonal_medications_pr_snr],
+            'mmg_conclusion_skin':[selected_mmg_conclusion_skin_snr],
+            'mmg_areola':[selected_mmg_areola_pr_snr],
+            'mmg_nipple':[selected_mmg_nipple_pr_snr],
+            'mmg_background_breast':[selected_mmg_background_breast_pr_snr],
+            'mmg_nodle':[selected_mmg_nodle_pr_snr],
+            'mmg_nodle_contour':[selected_mmg_nodle_contour_pr_snr],
+            'mmg_nodle_size':[selected_mmg_nodle_size_pr_snr],
+            'mmg_calcifications':[selected_mmg_calcifications_pr_snr],
+            'mmg_number_formations_visualized':[selected_mmg_number_formations_visualized_pr_snr],
+            'mmg_axillary_lymph_nodes':[selected_mmg_axillary_lymph_nodes_pr_snr],
+            'mmg_conclusion':[selected_mmg_conclusion_pr_snr],
+            'type_structure_acr':[selected_type_structure_acr_pr_snr],
+            'mmg_number_nodles':[selected_mmg_number_nodles_pr_snr],
+            'mmg_category_birads':[selected_mmg_category_birads_pr_snr]
+            })
+        
+        df_us_snr_pred["diagnosis_primary"] = df_us_snr_pred['diagnosis_primary'].apply(lambda x: 1 if x == df_us_snr["diagnosis_primary"].unique()[0]
+                                    else 2 if x == df_us_snr["diagnosis_primary"].unique()[1]
+                                    else 3 if x == df_us_snr["diagnosis_primary"].unique()[2]
+                                    else 4 if x == df_us_snr["diagnosis_primary"].unique()[3]
+                                    else 5 if x == df_us_snr["diagnosis_primary"].unique()[4]
+                                    else 6 if x == df_us_snr["diagnosis_primary"].unique()[5]
+                                    else 7 if x == df_us_snr["diagnosis_primary"].unique()[6]
+                                    else 8 if x == df_us_snr["diagnosis_primary"].unique()[7]
+                                    else 9 if x == df_us_snr["diagnosis_primary"].unique()[8]                                    
+                                    else 10)
+        df_us_snr_pred["satus_reproductive"] = df_us_snr_pred["satus_reproductive"].apply(lambda x: 1 if x == df_us_snr["diagnosis_primary"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["side"] = df_us_snr_pred['side'].apply(lambda x: 1 if x == df_us_snr["side"].unique()[0]
+                                            else 2 if x == df_us_snr["side"].unique()[1]
+                                            else 3 if x == df_us_snr["side"].unique()[2]
+                                            else 4)
+        df_us_snr_pred["complaints"] = df_us_snr_pred['complaints'].apply(lambda x: 1 if x == df_us_snr["complaints"].unique()[0]
+                                            else 2 if x == df_us_snr["complaints"].unique()[1]
+                                            else 3 if x == df_us_snr["complaints"].unique()[2]
+                                            else 4)
+        df_us_snr_pred["breast_surgery_before"] = df_us_snr_pred["breast_surgery_before"].apply(lambda x: 1 if x == df_us_snr["breast_surgery_before"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["skin_symptoms"] = df_us_snr_pred["skin_symptoms"].apply(lambda x: 1 if x == df_us_snr["skin_symptoms"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["nipple_retraction"] = df_us_snr_pred["nipple_retraction"].apply(lambda x: 1 if x == df_us_snr["nipple_retraction"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["nipple_release"] = df_us_snr_pred["nipple_release"].apply(lambda x: 1 if x == df_us_snr["nipple_release"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["quadrant"] = df_us_snr_pred['quadrant'].apply(lambda x: 1 if x == df_us_snr["quadrant"].unique()[0]
+                                            else 2 if x == df_us_snr["quadrant"].unique()[1]
+                                            else 3 if x == df_us_snr["quadrant"].unique()[2]
+                                            else 4 if x == df_us_snr["quadrant"].unique()[3]
+                                            else 5 if x == df_us_snr["quadrant"].unique()[4]
+                                            else 6 if x == df_us_snr["quadrant"].unique()[5]
+                                            else 7 if x == df_us_snr["quadrant"].unique()[6]
+                                            else 8 if x == df_us_snr["quadrant"].unique()[7]
+                                            else 9 if x == df_us_snr["quadrant"].unique()[8]                                    
+                                            else 10)
+        df_us_snr_pred["genetics"] = df_us_snr_pred["genetics"].apply(lambda x: 1 if x == df_us_snr["genetics"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["hormonal_medications"] = df_us_snr_pred["hormonal_medications"].apply(lambda x: 1 if x == df_us_snr["hormonal_medications"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["mmg_conclusion_skin"] = df_us_snr_pred['mmg_conclusion_skin'].apply(lambda x: 1 if x == df_us_snr["mmg_conclusion_skin"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_conclusion_skin"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_conclusion_skin"].unique()[2]
+                                            else 4)
+        df_us_snr_pred["mmg_areola"] = df_us_snr_pred['mmg_areola'].apply(lambda x: 1 if x == df_us_snr["mmg_areola"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_areola"].unique()[1]
+                                            else 3)
+        df_us_snr_pred["mmg_nipple"] = df_us_snr_pred['mmg_nipple'].apply(lambda x: 1 if x == df_us_snr["mmg_nipple"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_nipple"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_nipple"].unique()[2]
+                                            else 4)
+        df_us_snr_pred["mmg_background_breast"] = df_us_snr_pred['mmg_background_breast'].apply(lambda x: 1 if x == df_us_snr["mmg_background_breast"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_background_breast"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_background_breast"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_background_breast"].unique()[3]
+                                            else 5)
+        df_us_snr_pred["mmg_nodle"] = df_us_snr_pred['mmg_nodle'].apply(lambda x: 1 if x == df_us_snr["mmg_nodle"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_nodle"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_nodle"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_nodle"].unique()[3]
+                                            else 5 if x == df_us_snr["mmg_nodle"].unique()[4]
+                                            else 6 if x == df_us_snr["mmg_nodle"].unique()[5]
+                                            else 7 if x == df_us_snr["mmg_nodle"].unique()[6]
+                                            else 8 if x == df_us_snr["mmg_nodle"].unique()[7]
+                                            else 9 if x == df_us_snr["mmg_nodle"].unique()[8]                                    
+                                            else 10)
+        df_us_snr_pred["mmg_nodle_contour"] = df_us_snr_pred['mmg_nodle_contour'].apply(lambda x: 1 if x == df_us_snr["mmg_nodle_contour"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_nodle_contour"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_nodle_contour"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_nodle_contour"].unique()[3]
+                                            else 5)
+        df_us_snr_pred["mmg_nodle_size"] = df_us_snr_pred['mmg_nodle_size'].apply(lambda x: 1 if x == df_us_snr["mmg_nodle_size"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_nodle_size"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_nodle_size"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_nodle_size"].unique()[3]
+                                            else 5 if x == df_us_snr["mmg_nodle_size"].unique()[4]
+                                            else 6 if x == df_us_snr["mmg_nodle_size"].unique()[5]
+                                            else 7)
+        df_us_snr_pred["mmg_calcifications"] = df_us_snr_pred['mmg_calcifications'].apply(lambda x: 1 if x == df_us_snr["mmg_calcifications"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_calcifications"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_calcifications"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_calcifications"].unique()[3]
+                                            else 5 if x == df_us_snr["mmg_calcifications"].unique()[4]
+                                            else 6 if x == df_us_snr["mmg_calcifications"].unique()[5]
+                                            else 7 if x == df_us_snr["mmg_calcifications"].unique()[6]
+                                            else 8 if x == df_us_snr["mmg_calcifications"].unique()[7]
+                                            else 9 if x == df_us_snr["mmg_calcifications"].unique()[8]                                    
+                                            else 10 if x == df_us_snr["mmg_calcifications"].unique()[9]
+                                            else 11)
+        df_us_snr_pred["mmg_number_formations_visualized"] = df_us_snr_pred['mmg_number_formations_visualized'].apply(lambda x: 1 if x == df_us_snr["mmg_number_formations_visualized"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_number_formations_visualized"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_number_formations_visualized"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_number_formations_visualized"].unique()[3]
+                                            else 5)
+        df_us_snr_pred["mmg_axillary_lymph_nodes"] = df_us_snr_pred['mmg_axillary_lymph_nodes'].apply(lambda x: 1 if x == df_us_snr["mmg_axillary_lymph_nodes"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_axillary_lymph_nodes"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_axillary_lymph_nodes"].unique()[2]
+                                            else 4)
+        df_us_snr_pred["mmg_conclusion"] = df_us_snr_pred['mmg_conclusion'].apply(lambda x: 1 if x == df_us_snr["mmg_conclusion"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_conclusion"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_conclusion"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_conclusion"].unique()[3]
+                                            else 5 if x == df_us_snr["mmg_conclusion"].unique()[4]
+                                            else 6 if x == df_us_snr["mmg_conclusion"].unique()[5]
+                                            else 7 if x == df_us_snr["mmg_conclusion"].unique()[6]
+                                            else 8 if x == df_us_snr["mmg_conclusion"].unique()[7]
+                                            else 9)
+        df_us_snr_pred["type_structure_acr"] = df_us_snr_pred['type_structure_acr'].apply(lambda x: 1 if x == df_us_snr["type_structure_acr"].unique()[0]
+                                            else 2)
+        df_us_snr_pred["mmg_number_nodles"] = df_us_snr_pred['mmg_number_nodles'].apply(lambda x: 1 if x == df_us_snr["mmg_number_nodles"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_number_nodles"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_number_nodles"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_number_nodles"].unique()[3]
+                                            else 5)
+        df_us_snr_pred["mmg_category_birads"] = df_us_snr_pred['mmg_category_birads'].apply(lambda x: 1 if x == df_us_snr["mmg_category_birads"].unique()[0]
+                                            else 2 if x == df_us_snr["mmg_category_birads"].unique()[1]
+                                            else 3 if x == df_us_snr["mmg_category_birads"].unique()[2]
+                                            else 4 if x == df_us_snr["mmg_category_birads"].unique()[3]
+                                            else 5 if x == df_us_snr["mmg_category_birads"].unique()[4]
+                                            else 6 if x == df_us_snr["mmg_category_birads"].unique()[5]
+                                            else 7 if x == df_us_snr["mmg_category_birads"].unique()[6]
+                                            else 8 if x == df_us_snr["mmg_category_birads"].unique()[7]
+                                            else 9)
+        df_us_snr_num = df_us_snr
+
+        df_us_snr_num["diagnosis_primary"] = df_us_snr_num['diagnosis_primary'].apply(lambda x: 1 if x == df_us_snr_num["diagnosis_primary"].unique()[0]
+                                    else 2 if x == df_us_snr_num["diagnosis_primary"].unique()[1]
+                                    else 3 if x == df_us_snr_num["diagnosis_primary"].unique()[2]
+                                    else 4 if x == df_us_snr_num["diagnosis_primary"].unique()[3]
+                                    else 5 if x == df_us_snr_num["diagnosis_primary"].unique()[4]
+                                    else 6 if x == df_us_snr_num["diagnosis_primary"].unique()[5]
+                                    else 7 if x == df_us_snr_num["diagnosis_primary"].unique()[6]
+                                    else 8 if x == df_us_snr_num["diagnosis_primary"].unique()[7]
+                                    else 9 if x == df_us_snr_num["diagnosis_primary"].unique()[8]                                    
+                                    else 10)
+        df_us_snr_num["satus_reproductive"] = df_us_snr_num["satus_reproductive"].apply(lambda x: 1 if x == df_us_snr_num["diagnosis_primary"].unique()[0]
+                                            else 2)
+        df_us_snr_num["side"] = df_us_snr_num['side'].apply(lambda x: 1 if x == df_us_snr_num["side"].unique()[0]
+                                            else 2 if x == df_us_snr_num["side"].unique()[1]
+                                            else 3 if x == df_us_snr_num["side"].unique()[2]
+                                            else 4)
+        df_us_snr_num["complaints"] = df_us_snr_num['complaints'].apply(lambda x: 1 if x == df_us_snr_num["complaints"].unique()[0]
+                                            else 2 if x == df_us_snr_num["complaints"].unique()[1]
+                                            else 3 if x == df_us_snr_num["complaints"].unique()[2]
+                                            else 4)
+        df_us_snr_num["breast_surgery_before"] = df_us_snr_num["breast_surgery_before"].apply(lambda x: 1 if x == df_us_snr_num["breast_surgery_before"].unique()[0]
+                                            else 2)
+        df_us_snr_num["skin_symptoms"] = df_us_snr_num["skin_symptoms"].apply(lambda x: 1 if x == df_us_snr_num["skin_symptoms"].unique()[0]
+                                            else 2)
+        df_us_snr_num["nipple_retraction"] = df_us_snr_num["nipple_retraction"].apply(lambda x: 1 if x == df_us_snr_num["nipple_retraction"].unique()[0]
+                                            else 2)
+        df_us_snr_num["nipple_release"] = df_us_snr_num["nipple_release"].apply(lambda x: 1 if x == df_us_snr_num["nipple_release"].unique()[0]
+                                            else 2)
+        df_us_snr_num["quadrant"] = df_us_snr_num['quadrant'].apply(lambda x: 1 if x == df_us_snr_num["quadrant"].unique()[0]
+                                            else 2 if x == df_us_snr_num["quadrant"].unique()[1]
+                                            else 3 if x == df_us_snr_num["quadrant"].unique()[2]
+                                            else 4 if x == df_us_snr_num["quadrant"].unique()[3]
+                                            else 5 if x == df_us_snr_num["quadrant"].unique()[4]
+                                            else 6 if x == df_us_snr_num["quadrant"].unique()[5]
+                                            else 7 if x == df_us_snr_num["quadrant"].unique()[6]
+                                            else 8 if x == df_us_snr_num["quadrant"].unique()[7]
+                                            else 9 if x == df_us_snr_num["quadrant"].unique()[8]                                    
+                                            else 10)
+        df_us_snr_num["genetics"] = df_us_snr_num["genetics"].apply(lambda x: 1 if x == df_us_snr_num["genetics"].unique()[0]
+                                            else 2)
+        df_us_snr_num["hormonal_medications"] = df_us_snr_num["hormonal_medications"].apply(lambda x: 1 if x == df_us_snr_num["hormonal_medications"].unique()[0]
+                                            else 2)
+        df_us_snr_num["hist_is_tumor"] = df_us_snr_num["hist_is_tumor"].apply(lambda x: 1 if x == df_us_snr_num["hist_is_tumor"].unique()[0]
+                                            else 2)
+        df_us_snr_num["mmg_conclusion_skin"] = df_us_snr_num['mmg_conclusion_skin'].apply(lambda x: 1 if x == df_us_snr_num["mmg_conclusion_skin"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_conclusion_skin"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_conclusion_skin"].unique()[2]
+                                            else 4)
+        df_us_snr_num["mmg_areola"] = df_us_snr_num['mmg_areola'].apply(lambda x: 1 if x == df_us_snr_num["mmg_areola"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_areola"].unique()[1]
+                                            else 3)
+        df_us_snr_num["mmg_nipple"] = df_us_snr_num['mmg_nipple'].apply(lambda x: 1 if x == df_us_snr_num["mmg_nipple"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_nipple"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_nipple"].unique()[2]
+                                            else 4)
+        df_us_snr_num["mmg_background_breast"] = df_us_snr_num['mmg_background_breast'].apply(lambda x: 1 if x == df_us_snr_num["mmg_background_breast"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_background_breast"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_background_breast"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_background_breast"].unique()[3]
+                                            else 5)
+        df_us_snr_num["mmg_nodle"] = df_us_snr_num['mmg_nodle'].apply(lambda x: 1 if x == df_us_snr_num["mmg_nodle"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_nodle"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_nodle"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_nodle"].unique()[3]
+                                            else 5 if x == df_us_snr_num["mmg_nodle"].unique()[4]
+                                            else 6 if x == df_us_snr_num["mmg_nodle"].unique()[5]
+                                            else 7 if x == df_us_snr_num["mmg_nodle"].unique()[6]
+                                            else 8 if x == df_us_snr_num["mmg_nodle"].unique()[7]
+                                            else 9 if x == df_us_snr_num["mmg_nodle"].unique()[8]                                    
+                                            else 10)
+        df_us_snr_num["mmg_nodle_contour"] = df_us_snr_num['mmg_nodle_contour'].apply(lambda x: 1 if x == df_us_snr_num["mmg_nodle_contour"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_nodle_contour"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_nodle_contour"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_nodle_contour"].unique()[3]
+                                            else 5)
+        df_us_snr_num["mmg_nodle_size"] = df_us_snr_num['mmg_nodle_size'].apply(lambda x: 1 if x == df_us_snr_num["mmg_nodle_size"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_nodle_size"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_nodle_size"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_nodle_size"].unique()[3]
+                                            else 5 if x == df_us_snr_num["mmg_nodle_size"].unique()[4]
+                                            else 6 if x == df_us_snr_num["mmg_nodle_size"].unique()[5]
+                                            else 7)
+        df_us_snr_num["mmg_calcifications"] = df_us_snr_num['mmg_calcifications'].apply(lambda x: 1 if x == df_us_snr_num["mmg_calcifications"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_calcifications"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_calcifications"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_calcifications"].unique()[3]
+                                            else 5 if x == df_us_snr_num["mmg_calcifications"].unique()[4]
+                                            else 6 if x == df_us_snr_num["mmg_calcifications"].unique()[5]
+                                            else 7 if x == df_us_snr_num["mmg_calcifications"].unique()[6]
+                                            else 8 if x == df_us_snr_num["mmg_calcifications"].unique()[7]
+                                            else 9 if x == df_us_snr_num["mmg_calcifications"].unique()[8]                                    
+                                            else 10 if x == df_us_snr_num["mmg_calcifications"].unique()[9]
+                                            else 11)
+        df_us_snr_num["mmg_number_formations_visualized"] = df_us_snr_num['mmg_number_formations_visualized'].apply(lambda x: 1 if x == df_us_snr_num["mmg_number_formations_visualized"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_number_formations_visualized"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_number_formations_visualized"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_number_formations_visualized"].unique()[3]
+                                            else 5)
+        df_us_snr_num["mmg_axillary_lymph_nodes"] = df_us_snr_num['mmg_axillary_lymph_nodes'].apply(lambda x: 1 if x == df_us_snr_num["mmg_axillary_lymph_nodes"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_axillary_lymph_nodes"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_axillary_lymph_nodes"].unique()[2]
+                                            else 4)
+        df_us_snr_num["mmg_conclusion"] = df_us_snr_num['mmg_conclusion'].apply(lambda x: 1 if x == df_us_snr_num["mmg_conclusion"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_conclusion"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_conclusion"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_conclusion"].unique()[3]
+                                            else 5 if x == df_us_snr_num["mmg_conclusion"].unique()[4]
+                                            else 6 if x == df_us_snr_num["mmg_conclusion"].unique()[5]
+                                            else 7 if x == df_us_snr_num["mmg_conclusion"].unique()[6]
+                                            else 8 if x == df_us_snr_num["mmg_conclusion"].unique()[7]
+                                            else 9)
+        df_us_snr_num["type_structure_acr"] = df_us_snr_num['type_structure_acr'].apply(lambda x: 1 if x == df_us_snr_num["type_structure_acr"].unique()[0]
+                                            else 2)
+        df_us_snr_num["mmg_number_nodles"] = df_us_snr_num['mmg_number_nodles'].apply(lambda x: 1 if x == df_us_snr_num["mmg_number_nodles"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_number_nodles"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_number_nodles"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_number_nodles"].unique()[3]
+                                            else 5)
+        df_us_snr_num["mmg_category_birads"] = df_us_snr_num['mmg_category_birads'].apply(lambda x: 1 if x == df_us_snr_num["mmg_category_birads"].unique()[0]
+                                            else 2 if x == df_us_snr_num["mmg_category_birads"].unique()[1]
+                                            else 3 if x == df_us_snr_num["mmg_category_birads"].unique()[2]
+                                            else 4 if x == df_us_snr_num["mmg_category_birads"].unique()[3]
+                                            else 5 if x == df_us_snr_num["mmg_category_birads"].unique()[4]
+                                            else 6 if x == df_us_snr_num["mmg_category_birads"].unique()[5]
+                                            else 7 if x == df_us_snr_num["mmg_category_birads"].unique()[6]
+                                            else 8 if x == df_us_snr_num["mmg_category_birads"].unique()[7]
+                                            else 9)
+        
+        X_snr = df_us_snr_num.drop('hist_is_tumor', axis=1)
+        y_snr = df_us_snr_num['hist_is_tumor']
+
+        X_train_snr, X_test_snr, y_train_snr, y_test_snr = train_test_split(X_snr, y_snr, test_size=0.20, random_state=42, stratify=y_snr)
+
+        rf = RandomForestClassifier(
+            n_estimators=500, 
+            max_depth=5, 
+            max_features=None, 
+            bootstrap=True, 
+            min_samples_split=5,
+            min_samples_leaf=2, 
+            random_state=42,
+            class_weight=None,
+            verbose=1,
+            n_jobs=-1
+)
+
+        rf.fit(X_train_snr, y_train_snr)
+
+
+        
+        df_us_snr_pred["hist_is_tumor"] = rf.predict(df_us_snr_pred)
+
+        
+       
+
+        
+
+        df_us_snr_pred["way"] = df_us_snr_pred["hist_is_tumor"].apply(lambda x: '3d УЗИ' if x == 1
+                                            else 'традиционное УЗИ')
+        way_to_snr = df_us_snr_pred["way"][0]
+
+        
+        ml_panel_snr = dbc.Card([
+                dbc.CardHeader("Маршрутизация пациентки 40 лет и старше", className="h2-label"),
+                dbc.CardBody([
+                    dcc.Markdown(f"*Направление:* **{way_to_snr}** \n ---"),
+                    dcc.Markdown(f"*Возраст:* **{selected_age_patient_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Диагноз:* **{selected_diagnosis_primary_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Сторона:* **{selected_side_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Репродуктивный статус:* **{selected_satus_reproductive_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Жалобы:* **{selected_complaints_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Операции до:* **{selected_breast_surgery_before_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Симптомы на коже:* **{selected_skin_symptoms_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Симптом ретракции:* **{selected_nipple_retraction_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Симптом выделения:* **{selected_nipple_release_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Кавадрант:* **{selected_quadrant_pr_snr}** \n ---"),
+                    dcc.Markdown(f"*Наследственность:* **{selected_genetics_pr_snr}** \n ---")
                     
                 ], className="stats-body")])
 
@@ -1745,7 +2111,8 @@ def register_callbacks(app):
                 "abus_probabilityNeoCa":abus_probabilityNeoCa_fig,
                 "mmg_probabilityNeoCa":mmg_probabilityNeoCa_fig,
                 "stats-panel":stats_panel,
-                "ml-panel":ml_panel
+                "ml-panel_jun":ml_panel_jun,
+                "ml-panel_snr":ml_panel_snr
                 
                 
                 }
